@@ -165,26 +165,29 @@ function makeExperiment() {
   p.is_assigned = ($.getUrlVar('assignmentId') != 'ASSIGNMENT_ID_NOT_AVAILABLE')
   p.practice_intro_shown = true
   p.experiment_intro_shown = true
-  p.npractice = 2
-  p.total_num_ims = 12
+  p.npractice = 5
+  p.total_num_ims = 15
   
   p.gt_side = []
   p.images_left = []
   p.images_right = []
   p.captions = []
   
-  sequence_helper("left","practice_good_adherence/0.png","practice_bad_adherence/0.png", "A photo of a cat");
- sequence_helper("left","practice_good_adherence/1.png","practice_bad_adherence/1.png", "A photo of a dog");
- sequence_helper("left","sd_friendliness/23_1_.jpg","ours_friendliness/23_1_.jpg", "A photorealistic oil painting capturing a red maple tree in a deep green forest");
- sequence_helper("left","sd_friendliness/14_3_.jpg","ours_friendliness/14_3_.jpg", "An ornate garden party with tables covered in red roses and green foliage creating a romantic setting");
- sequence_helper("right","ours_friendliness/40_3_.jpg","sd_friendliness/40_3_.jpg", "An exotic bird aviary capturing the harmonious dance of scarlet macaws and iridescent green parakeets in mid-flight.");
- sequence_helper("right","ours_friendliness/27_4_.jpg","sd_friendliness/27_4_.jpg", "A bustling urban cafe where patrons sip red hued beverages amid a backdrop of verdant vertical gardens");
- sequence_helper("right","ours_friendliness/30_2_.jpg","sd_friendliness/30_2_.jpg", "An artistic floral arrangement combining striking red tulips with vibrant green stems and leaves");
- sequence_helper("left","sd_friendliness/19_1_.jpg","ours_friendliness/19_1_.jpg", "A vibrant city park during spring with red tulips and lush green grass");
+  sequence_helper("left","practice_good_friendliness/0.png","practice_bad_friendliness/0.png", "A photo of a apple");
+ sequence_helper("right","practice_bad_friendliness/1.png","practice_good_friendliness/1.png", "A photo of a dog");
+ sequence_helper("right","practice_bad_friendliness/2.png","practice_good_friendliness/2.png", "A photo of a parrot");
+ sequence_helper("right","practice_bad_friendliness/3.png","practice_good_friendliness/3.png", "A photo of a fish");
+ sequence_helper("left","practice_good_friendliness/4.png","practice_bad_friendliness/4.png", "A photo of a firetruck");
  sequence_helper("right","ours_friendliness/31_1_.jpg","sd_friendliness/31_1_.jpg", "An outdoor festival with kites flying overhead in shades of red and green");
  sequence_helper("left","sd_friendliness/9_0_.jpg","ours_friendliness/9_0_.jpg", "A serene botanical garden with delicate red butterflies flitting among lush green plants");
  sequence_helper("right","ours_friendliness/47_2_.jpg","sd_friendliness/47_2_.jpg", "A whimsical balloon festival with red and green balloons rising into the sky.");
  sequence_helper("left","sd_friendliness/22_1_.jpg","ours_friendliness/22_1_.jpg", "A vibrant tropical resort with red hibiscus flowers dotting the lush green scenery");
+ sequence_helper("left","sd_friendliness/30_0_.jpg","ours_friendliness/30_0_.jpg", "An artistic floral arrangement combining striking red tulips with vibrant green stems and leaves");
+ sequence_helper("left","sd_friendliness/18_0_.jpg","ours_friendliness/18_0_.jpg", "A serene monastery's peaceful garden with splashes of red and green in blooming flowers");
+ sequence_helper("left","sd_friendliness/1_3_.jpg","ours_friendliness/1_3_.jpg", "An adventurous jungle safari with vivid red parrots and dense green canopy overhead");
+ sequence_helper("right","ours_friendliness/11_0_.jpg","sd_friendliness/11_0_.jpg", "A picturesque vineyard with rows of green grapevines and scattered red poppies in bloom");
+ sequence_helper("right","ours_friendliness/38_4_.jpg","sd_friendliness/38_4_.jpg", "An adventurous jungle expedition gear with red backpacks and olive green tents");
+ sequence_helper("right","ours_friendliness/7_2_.jpg","sd_friendliness/7_2_.jpg", "A serene meadow at twilight with red poppies swaying in a gentle breeze surrounded by tall green grasses");
 
 
   return this
@@ -352,7 +355,7 @@ function submitAnswer(answer) {
       
       p.im_num = p.im_num+1;
               
-      setTimeout(function() { next(); }, 2400);
+      setTimeout(function() { next(); }, 800);
   }
   else {
       var is_correct = (p.gt_side[p.im_num]!=answer);
@@ -506,6 +509,9 @@ function restartExperiment() {}
  <input type="hidden" name="selection9" id="selection9" value="unset">
  <input type="hidden" name="selection10" id="selection10" value="unset">
  <input type="hidden" name="selection11" id="selection11" value="unset">
+ <input type="hidden" name="selection12" id="selection12" value="unset">
+ <input type="hidden" name="selection13" id="selection13" value="unset">
+ <input type="hidden" name="selection14" id="selection14" value="unset">
 
           <!-- <p><textarea name='comment' cols='80' rows='3'></textarea></p> -->
           <div><textarea id="comments" name="comments" rows="3" cols="31">Comments?</textarea></div>

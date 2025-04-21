@@ -18,8 +18,8 @@ def getOpts(expt_name):
     opt['practice_captions_path'] = 'practice_captions.json'
     opt['captions_path'] = 'captions.json'
     opt['Nimgs'] = 50
-    opt['Nperhit'] = 12
-    opt['Npractice'] = 2
+    opt['Nperhit'] = 15
+    opt['Npractice'] = 5
     opt['Nhits'] = 2
     opt['ut_id'] = 'NA'
     opt['base_url'] = 'http://baymax.ri.cmu.edu:8001/outputs/tests/mturk/'
@@ -152,7 +152,7 @@ def mk_expt(args):
 
     # make an HTML file for each HIT
     for HIT_IDX in range(H):
-        html = fileread('src/mturk_scripts/templates/index_template_adherence.html', breakcode=breakcode)
+        html = fileread('src/mturk_scripts/templates/index_template.html', breakcode=breakcode)
         html = html.replace('{{UT_ID}}', opt['ut_id'])
         html = html.replace('{{BASE_URL}}', opt['base_url'])
         html = html.replace('{{INSTRUCTIONS}}', fileread(opt['instructions_file'], breakcode=breakcode))
