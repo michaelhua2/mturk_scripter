@@ -13,9 +13,9 @@ def getOpts(expt_name):
     opt = getDefaultOpts()
     opt['gt_path'] = 'sd_friendliness'
     opt['which_algs_paths'] = ['ours_friendliness']
-    opt['Nimgs'] = 10
-    opt['Npairs'] = 10
-    opt['Npractice'] = 0
+    opt['Nimgs'] = 15
+    opt['Npairs'] = 11
+    opt['Npractice'] = 1
     opt['Nhits'] = 1
     opt['ut_id'] = 'NA'
     opt['base_url'] = 'http://baymax.ri.cmu.edu:8001/outputs/tests/mturk/'

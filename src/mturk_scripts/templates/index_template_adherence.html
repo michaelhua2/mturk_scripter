@@ -44,7 +44,7 @@
                 border-radius: 25px;
                 background-color: #EEE;
             }
-            #start_button:hover {
+            #start_button:hover, #continue_button:hover {
                 border: 2px solid #999;
                 background-color: #CCC;
             }
@@ -224,6 +224,7 @@ function next() {
         $('#imageB').hide();
         $('#imageA_div').hide();
         $('#imageB_div').hide();
+        $('#caption').hide();
         <!-- $('#short_instructions').html(""); -->
         $('#experiment_start').show();
         
@@ -278,7 +279,7 @@ function next() {
     setTimeout(function() { 
         $('#trial_num').show();
         $('#caption').show();
-        $('#short_instructions').html("{{SHORT_INSTRUCTIONS}}");
+        $('#short_instructions').html("<h3>{{SHORT_INSTRUCTIONS}}</h3>");
         $('#buttonA').fadeIn(fade_time);
         $('#buttonB').fadeIn(fade_time);
     }, offset_time+100);
@@ -293,13 +294,13 @@ function submitAnswer(answer) {
     $('#caption').hide();
     
     if (p.is_practice) {
-           var is_correct = (p.gt_side[p.im_num]!=answer);
+           var is_correct = (p.gt_side[p.im_num]==answer);
         
            if (is_correct) {
-                  $('#feedback').html('<img width=24px src="http://web.mit.edu/phillipi/Public/colorization/check.png"/><br><span style="color:green;">You are correct!</span>');
+                $('#feedback').html('<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><span style="color:green">Correct!</span>');
            }
            else {
-               $('#feedback').html('<span style="color:#cc0000">Incorrect. That image was real.</span>');
+               $('#feedback').html('<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><span style="color:#cc0000">Incorrect.</span>');
            }
            
            if (answer=='left') {
@@ -322,12 +323,12 @@ function submitAnswer(answer) {
         $('#feedback').show();
         $('#short_instructions').html('');
         if (p.gt_side[p.im_num]=='left') {
-            $('#feedbackA').html('Real');
-            $('#feedbackB').html('Fake');
+            $('#feedbackA').html('Better');
+            $('#feedbackB').html('Worse');
         }
         else {
-            $('#feedbackA').html('Fake');
-            $('#feedbackB').html('Real');
+            $('#feedbackA').html('Worse');
+            $('#feedbackB').html('Better');
         }
            $('#imageA').show();
            $('#imageB').show();
@@ -362,16 +363,26 @@ function submitAnswer(answer) {
     }
 }
 
+function startPractice() {
+    $('#images_div').show();
+    $('#practice_start').hide();
+    next();
+}
 
 function startExperiment() {
     if (p == null) { return; }
-    p.is_practice = false;
+    p.is_practice = true;
     $('#buttons_start').hide();
     $('#long_info').hide();
     $('#couhes').hide();
     $('#teaser').hide();
-    $('#images_div').show();
-    next();
+    if (p.is_practice) {
+        $('#practice_start').show();
+    }
+    else {
+        next();
+    }
+    
 }
 
 
@@ -412,18 +423,29 @@ function restartExperiment() {}
           <div id="buttonB" style="position:relative; width:100%; height:100%"><button type="button" onclick="submitAnswer('right')" style="position:absolute; width:100%; height:100%; top:0; left:0; z-index: 10; font-size:14pt">Right image</button></div>
       </div>
     </div>
-
     <div id= "feedback" align=center style="display:none"></div>
     
     <div id = "experiment_start" style="width: 1000px; margin: 0 auto; text-align: left; display:none">
+      <h2>Practice Complete!</h2>
       <br>You've completed the practice exercise!  Click "Continue" to continue on to the main task. The main task will be identical except that you won't be told whether or not your guess was correct.</br>
+      <br>
+      <br>
       <div id = "buttons_continue" align=center>
           <button id="continue_button" type="button" onClick="continue_to_main_expt()">Continue!</button>
       </div>
     </div>
-    
-    
-    
+
+    <div id = "practice_start" style="width: 1000px; margin: 0 auto; text-align: left; display:none">
+      <h2>Practice Start</h2>
+      <br>Let's begin with a practice. </br>
+      <br>
+      <br>
+      <div id = "buttons_continue" align=center>
+          <button id="continue_button" type="button" onClick="startPractice()">Continue!</button>
+      </div>
+    </div>
+
+        
     <div id="short_info" align="center" style="width: 80%; margin: 0 auto; text-align: left; display:none" align = center>
     </div>
 

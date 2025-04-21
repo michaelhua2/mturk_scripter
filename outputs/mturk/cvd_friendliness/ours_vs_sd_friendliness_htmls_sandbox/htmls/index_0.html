@@ -165,24 +165,25 @@ function makeExperiment() {
   p.is_assigned = ($.getUrlVar('assignmentId') != 'ASSIGNMENT_ID_NOT_AVAILABLE')
   p.practice_intro_shown = false
   p.experiment_intro_shown = false
-  p.npractice = 0
-  p.total_num_ims = 10
+  p.npractice = 1
+  p.total_num_ims = 11
   
   p.gt_side = []
   p.images_left = []
   p.images_right = []
   p.captions = []
   
-  sequence_helper("left","sd_friendliness/5_3_.jpg","ours_friendliness/5_3_.jpg", "A scenic nature trail lined with mature green trees and blooming red wildflowers");
- sequence_helper("left","sd_friendliness/2_1_.jpg","ours_friendliness/2_1_.jpg", "A serene garden pond surrounded by lush green grasses and floating red lilies");
- sequence_helper("left","sd_friendliness/2_0_.jpg","ours_friendliness/2_0_.jpg", "A serene garden pond surrounded by lush green grasses and floating red lilies");
- sequence_helper("right","ours_friendliness/8_1_.jpg","sd_friendliness/8_1_.jpg", "A charming greenhouse providing sanctuary for red bell peppers growing among green foliage");
- sequence_helper("right","ours_friendliness/0_2_.jpg","sd_friendliness/0_2_.jpg", "A tropical paradise scene with red parrots flying over vibrant green palm trees");
- sequence_helper("left","sd_friendliness/5_2_.jpg","ours_friendliness/5_2_.jpg", "A scenic nature trail lined with mature green trees and blooming red wildflowers");
- sequence_helper("left","sd_friendliness/7_3_.jpg","ours_friendliness/7_3_.jpg", "A serene meadow at twilight with red poppies swaying in a gentle breeze surrounded by tall green grasses");
- sequence_helper("left","sd_friendliness/6_1_.jpg","ours_friendliness/6_1_.jpg", "A wildlife sanctuary housing exotic creatures with red scales and green feathers.");
+  sequence_helper("left","sd_friendliness/9_0_.jpg","ours_friendliness/9_0_.jpg", "A serene botanical garden with delicate red butterflies flitting among lush green plants");
+ sequence_helper("right","ours_friendliness/5_4_.jpg","sd_friendliness/5_4_.jpg", "A scenic nature trail lined with mature green trees and blooming red wildflowers");
+ sequence_helper("left","sd_friendliness/8_3_.jpg","ours_friendliness/8_3_.jpg", "A charming greenhouse providing sanctuary for red bell peppers growing among green foliage");
+ sequence_helper("left","sd_friendliness/12_2_.jpg","ours_friendliness/12_2_.jpg", "The lush rainforest canopy dense with foliage and red exotic flowers");
+ sequence_helper("right","ours_friendliness/6_4_.jpg","sd_friendliness/6_4_.jpg", "A wildlife sanctuary housing exotic creatures with red scales and green feathers.");
+ sequence_helper("left","sd_friendliness/6_3_.jpg","ours_friendliness/6_3_.jpg", "A wildlife sanctuary housing exotic creatures with red scales and green feathers.");
+ sequence_helper("right","ours_friendliness/6_1_.jpg","sd_friendliness/6_1_.jpg", "A wildlife sanctuary housing exotic creatures with red scales and green feathers.");
+ sequence_helper("right","ours_friendliness/8_0_.jpg","sd_friendliness/8_0_.jpg", "A charming greenhouse providing sanctuary for red bell peppers growing among green foliage");
+ sequence_helper("right","ours_friendliness/5_1_.jpg","sd_friendliness/5_1_.jpg", "A scenic nature trail lined with mature green trees and blooming red wildflowers");
+ sequence_helper("right","ours_friendliness/12_3_.jpg","sd_friendliness/12_3_.jpg", "The lush rainforest canopy dense with foliage and red exotic flowers");
  sequence_helper("right","ours_friendliness/4_2_.jpg","sd_friendliness/4_2_.jpg", "A lush garden filled with red roses and green ferns under a bright midday sun");
- sequence_helper("right","ours_friendliness/0_4_.jpg","sd_friendliness/0_4_.jpg", "A tropical paradise scene with red parrots flying over vibrant green palm trees");
 
 
   return this
@@ -376,7 +377,7 @@ function submitAnswer(answer) {
 
 function startExperiment() {
   if (p == null) { return; }
-  p.is_practice = false;
+  p.is_practice = true;
   $('#buttons_start').hide();
   $('#long_info').hide();
   $('#couhes').hide();
@@ -481,6 +482,7 @@ function restartExperiment() {}
  <input type="hidden" name="selection7" id="selection7" value="unset">
  <input type="hidden" name="selection8" id="selection8" value="unset">
  <input type="hidden" name="selection9" id="selection9" value="unset">
+ <input type="hidden" name="selection10" id="selection10" value="unset">
 
           <!-- <p><textarea name='comment' cols='80' rows='3'></textarea></p> -->
           <div><textarea id="comments" name="comments" rows="3" cols="31">Comments?</textarea></div>
