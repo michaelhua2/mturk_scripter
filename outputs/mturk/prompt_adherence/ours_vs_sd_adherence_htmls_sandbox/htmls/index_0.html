@@ -165,8 +165,8 @@ function makeExperiment() {
     p.is_assigned = ($.getUrlVar('assignmentId') != 'ASSIGNMENT_ID_NOT_AVAILABLE')
     p.practice_intro_shown = true
     p.experiment_intro_shown = true
-    p.npractice = 5
-    p.total_num_ims = 15
+    p.npractice = 2
+    p.total_num_ims = 12
     
     p.gt_side = []
     p.images_left = []
@@ -175,9 +175,9 @@ function makeExperiment() {
     
     sequence_helper("left","practice_good_adherence/0.png","practice_bad_adherence/0.png", "A photo of a cat");
  sequence_helper("right","practice_bad_adherence/1.png","practice_good_adherence/1.png", "A photo of a dog");
- sequence_helper("right","practice_bad_adherence/2.png","practice_good_adherence/2.png", "A photo of a bird");
- sequence_helper("left","practice_good_adherence/3.png","practice_bad_adherence/3.png", "A photo of a fish");
- sequence_helper("right","practice_bad_adherence/4.png","practice_good_adherence/4.png", "A photo of a horse");
+ sequence_helper("right","ours_adherence/18_2_.png","sd_adherence/18_2_.png", "A serene monastery's peaceful garden with splashes of red and green in blooming flowers");
+ sequence_helper("left","sd_adherence/31_2_.png","ours_adherence/31_2_.png", "An outdoor festival with kites flying overhead in shades of red and green");
+ sequence_helper("right","ours_adherence/30_4_.png","sd_adherence/30_4_.png", "An artistic floral arrangement combining striking red tulips with vibrant green stems and leaves");
  sequence_helper("left","sd_adherence/32_1_.png","ours_adherence/32_1_.png", "A scenic outdoor farmers market with red peppers and vibrant green herbs on display");
  sequence_helper("left","sd_adherence/39_3_.png","ours_adherence/39_3_.png", "An urban rooftop garden with bright red chairs amid lush green vegetation");
  sequence_helper("right","ours_adherence/16_3_.png","sd_adherence/16_3_.png", "A magical underwater scene where red coral reefs contrast with seaweed in every shade of green");
@@ -185,9 +185,6 @@ function makeExperiment() {
  sequence_helper("right","ours_adherence/31_0_.png","sd_adherence/31_0_.png", "An outdoor festival with kites flying overhead in shades of red and green");
  sequence_helper("left","sd_adherence/43_3_.png","ours_adherence/43_3_.png", "A busy city park in springtime, where a red playground contrasts with the surrounding vivid green trees and grass, bustling with families enjoying the sun.");
  sequence_helper("right","ours_adherence/46_1_.png","sd_adherence/46_1_.png", "A toy store with shelves lined with red toy cars and green toy dinosaurs.");
- sequence_helper("left","sd_adherence/21_3_.png","ours_adherence/21_3_.png", "An adventurous hiking path lined with red wildflowers weaving through densely forested hills of green");
- sequence_helper("left","sd_adherence/37_1_.png","ours_adherence/37_1_.png", "A dynamic sports match with athletes wearing red jerseys and green helmets");
- sequence_helper("left","sd_adherence/23_1_.png","ours_adherence/23_1_.png", "A photorealistic oil painting capturing a red maple tree in a deep green forest");
 
 
     return this
@@ -312,10 +309,10 @@ function submitAnswer(answer) {
            var is_correct = (p.gt_side[p.im_num]==answer);
         
            if (is_correct) {
-                $('#feedback').html('<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><span style="color:green">Correct!</span>');
+                $('#feedback').html('<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><span style="color:green; font-size: 36px;">Correct!</span>');
            }
            else {
-               $('#feedback').html('<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><span style="color:#cc0000">Incorrect.</span>');
+               $('#feedback').html('<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><span style="color:#cc0000; font-size: 36px;">Incorrect.</span>');
            }
            
            if (answer=='left') {
@@ -509,9 +506,6 @@ function restartExperiment() {}
  <input type="hidden" name="selection9" id="selection9" value="unset">
  <input type="hidden" name="selection10" id="selection10" value="unset">
  <input type="hidden" name="selection11" id="selection11" value="unset">
- <input type="hidden" name="selection12" id="selection12" value="unset">
- <input type="hidden" name="selection13" id="selection13" value="unset">
- <input type="hidden" name="selection14" id="selection14" value="unset">
 
             <!-- <p><textarea name='comment' cols='80' rows='3'></textarea></p> -->
             <div><textarea id="comments" name="comments" rows="3" cols="31">Comments?</textarea></div>

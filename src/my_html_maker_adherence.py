@@ -18,8 +18,8 @@ def getOpts(expt_name):
     opt['practice_captions_path'] = 'practice_captions.json'
     opt['captions_path'] = 'captions.json'
     opt['Nimgs'] = 50
-    opt['Nperhit'] = 15
-    opt['Npractice'] = 5
+    opt['Nperhit'] = 12
+    opt['Npractice'] = 2
     opt['Nhits'] = 2
     opt['ut_id'] = 'NA'
     opt['base_url'] = 'http://baymax.ri.cmu.edu:8001/outputs/tests/mturk/'

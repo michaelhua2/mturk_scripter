@@ -297,10 +297,10 @@ function submitAnswer(answer) {
            var is_correct = (p.gt_side[p.im_num]==answer);
         
            if (is_correct) {
-                $('#feedback').html('<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><span style="color:green">Correct!</span>');
+                $('#feedback').html('<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><span style="color:green; font-size: 36px;">Correct!</span>');
            }
            else {
-               $('#feedback').html('<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><span style="color:#cc0000">Incorrect.</span>');
+               $('#feedback').html('<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><span style="color:#cc0000; font-size: 36px;">Incorrect.</span>');
            }
            
            if (answer=='left') {

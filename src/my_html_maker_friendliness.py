@@ -12,11 +12,15 @@ def fileread(str,breakcode='[[BR]]'):
 def getOpts(expt_name):
     opt = getDefaultOpts()
     opt['gt_path'] = 'sd_friendliness'
+    opt['practice_good_path'] = 'practice_good_adherence'
+    opt['practice_bad_path'] = 'practice_bad_adherence'
     opt['which_algs_paths'] = ['ours_friendliness']
-    opt['Nimgs'] = 15
-    opt['Npairs'] = 11
-    opt['Npractice'] = 1
-    opt['Nhits'] = 1
+    opt['practice_captions_path'] = 'practice_captions.json'
+    opt['captions_path'] = 'captions.json'
+    opt['Nimgs'] = 50
+    opt['Nperhit'] = 12
+    opt['Npractice'] = 2
+    opt['Nhits'] = 2
     opt['ut_id'] = 'NA'
     opt['base_url'] = 'http://baymax.ri.cmu.edu:8001/outputs/tests/mturk/'
     opt['instructions_file'] = 'templates/friendliness/instructions_basic_identity.html'
@@ -37,8 +41,8 @@ def getDefaultOpts():
     opt['vigilance_path'] = 'vigilance'	   # path to vigilance images
     opt['gt_path'] = 'gt'					 # path to gt images
     opt['Nimgs'] = 100						# number of images to test
-    opt['Npairs'] = 60						# number of paired comparisons per HIT
-    opt['Npractice'] = 10					 # number of practice trials per HIT (number of non-practice trials is opt['Npairs']-opt['Npractice'])
+    opt['Ntest'] = 60						# number of test images per HIT
+    opt['Npractice'] = 10					 # number of practice trials per HIT
     opt['Nhits'] = 50				 # number of HITs per algorithm
     opt['vigilance_freq'] = 0.0			   # percent of trials that are vigilance tests
     opt['use_vigilance'] = False			   # include vigilance trials (obviously fake images to check that Turkers are paying attention)	
@@ -74,29 +78,17 @@ def mk_expt(args):
     checkOpts(opt)
     os.makedirs(os.path.join(args.output_folder, "htmls"), exist_ok=True)
     
-    # make header
-    head_gt_side, head_images_left, head_images_right = [], [], []
-    
-    for i in range(opt['Npairs']):
-        head_gt_side.append('gt_side%d'%i)
-        head_images_left.append('images_left%d'%i)
-        head_images_right.append('images_right%d'%i)
-    head_gt_side = [head_gt_side,]
-    head_images_left = [head_images_left,]
-    head_images_right = [head_images_right,]
-    
     assert opt['paired']
     assert len(opt['which_algs_paths'])==1
 
     # i get a total of HxN number of comparisons
     A = len(opt['which_algs_paths']) # = 1 
     H = opt['Nhits'] # number of hits
-    I = opt['Nimgs'] # = 500
-    N = opt['Npairs'] # number of images per hit = 20
+    I = opt['Nimgs'] # = 50 * 5
+    N = opt['Nperhit'] # number of images per hit = 10
+    P = opt['Npractice'] # number of practice trials per HIT 
 
     # make sure H*N = I
-
-
     which_alg = np.random.randint(A, size=H*N)
 
     # img_indices = np.arange(I)
@@ -105,47 +97,56 @@ def mk_expt(args):
         for seed in range(5):
             img_indices.append(f"{i}_{seed}_")
     img_indices = np.array(img_indices)
+    
     # shuffle the indices with a fixed seed
     np.random.seed(0)
     np.random.shuffle(img_indices)
 
     which_ind0 = which_ind1 = img_indices
     which_side = np.random.randint(2, size=H*N) # randomize left or right
-    vigilance = (np.random.rand(H*N) < opt['vigilance_freq']) * opt['use_vigilance']
+    # vigilance = (np.random.rand(H*N) < opt['vigilance_freq']) * opt['use_vigilance']
 
     gt_side = []
     images_left = []
     images_right = []
-    images_input = []
-    all_captions = json.load(open("captions.json", 'r'))
+    test_captions = json.load(open(opt['captions_path'], 'r'))
+    practice_captions = json.load(open(opt['practice_captions_path'], 'r'))
     captions = []
-    for (nn,data) in enumerate(zip(which_alg,which_ind0,which_ind1,which_side,vigilance)):
-        cur_which_alg, cur_which_ind0, cur_which_ind1, cur_which_side, cur_vigilance = data
-        assert cur_which_ind0==cur_which_ind1
-        assert cur_which_alg == 0
-        cur_alg_name = opt['which_algs_paths'][cur_which_alg] if not cur_vigilance else opt['vigilance_path']
-        if(cur_which_side==0):
-            gt_side.append('left')
-            images_left.append(('%s/'+opt['filename'](cur_which_ind0))%opt['gt_path'])
-            images_right.append(('%s/'+opt['filename'](cur_which_ind1))%cur_alg_name)
+
+    for (nn,data) in enumerate(zip(which_ind0,which_ind1,which_side)):     
+        cur_which_ind0, cur_which_ind1, cur_which_side = data   
+        # if practice
+        index_in_hit = nn % N
+        if index_in_hit < P:
+            if(cur_which_side==0):
+                gt_side.append('left')
+                images_left.append(f"{opt['practice_good_path']}/{index_in_hit}.png")
+                images_right.append(f"{opt['practice_bad_path']}/{index_in_hit}.png")
+            else:
+                gt_side.append('right')
+                images_left.append(f"{opt['practice_bad_path']}/{index_in_hit}.png")
+                images_right.append(f"{opt['practice_good_path']}/{index_in_hit}.png")
+            caption = practice_captions[index_in_hit]
         else:
-            gt_side.append('right')
-            images_left.append(('%s/'+opt['filename'](cur_which_ind0))%cur_alg_name)
-            images_right.append(('%s/'+opt['filename'](cur_which_ind1))%opt['gt_path'])
-        images_input.append(('%s/'+opt['filename'](cur_which_ind0))%cur_alg_name)
-        caption = all_captions[int(cur_which_ind0.split('_')[0])]
+            cur_alg_name = opt['which_algs_paths'][0]
+            if(cur_which_side==0):
+                gt_side.append('left')
+                images_left.append(('%s/'+opt['filename'](cur_which_ind0))%opt['gt_path'])
+                images_right.append(('%s/'+opt['filename'](cur_which_ind1))%cur_alg_name)
+            else:
+                gt_side.append('right')
+                images_left.append(('%s/'+opt['filename'](cur_which_ind0))%cur_alg_name)
+                images_right.append(('%s/'+opt['filename'](cur_which_ind1))%opt['gt_path'])
+            caption = test_captions[int(cur_which_ind0.split('_')[0])]
+        
         captions.append(caption)
     
-    gt_side = np.array(gt_side).reshape((H,N))
+    gt_side = np.array(gt_side).reshape((H,N)) # our method
     images_left = np.array(images_left).reshape((H,N))
     images_right = np.array(images_right).reshape((H,N))
-    images_input = np.array(images_input).reshape((H,N))
     captions = np.array(captions).reshape((H,N))
-    head_gt_side = np.array(head_gt_side)
-    head_images_left = np.array(head_images_left)
-    head_images_right = np.array(head_images_right)
-    
-    captions = np.array(captions).reshape((H,N))
+
+    # ipdb.set_trace()
     
     breakcode='[[BR]]'
 
@@ -163,11 +164,11 @@ def mk_expt(args):
         html = html.replace('{{IM_HEIGHT}}', '%i'%(opt['im_height']))
         html = html.replace('{{IM_WIDTH}}', '%i'%(opt['im_width']))
         html = html.replace('{{N_PRACTICE}}', '%i'%(opt['Npractice']))
-        html = html.replace('{{TOTAL_NUM_IMS}}', '%i'%(opt['Npairs']))
+        html = html.replace('{{TOTAL_NUM_IMS}}', '%i'%(opt['Nperhit']))
         # ipdb.set_trace()
-        s = (' ').join([f'sequence_helper("{gt_side[HIT_IDX][i]}","{images_left[HIT_IDX][i]}","{images_right[HIT_IDX][i]}", "{captions[HIT_IDX][i]}");\n' for i in range(opt['Npairs'])]) 
+        s = (' ').join([f'sequence_helper("{gt_side[HIT_IDX][i]}","{images_left[HIT_IDX][i]}","{images_right[HIT_IDX][i]}", "{captions[HIT_IDX][i]}");\n' for i in range(opt['Nperhit'])]) 
         html = html.replace('{{SEQUENCE}}', s)
-        s = (' ').join(['<input type="hidden" name="selection%d" id="selection%d" value="unset">\n'%(i,i) for i in range(opt['Npairs'])])
+        s = (' ').join(['<input type="hidden" name="selection%d" id="selection%d" value="unset">\n'%(i,i) for i in range(opt['Nperhit'])])
         html = html.replace('{{SELECTION}}', s)
         
         with open(os.path.join(args.output_folder,f'htmls/index_{HIT_IDX}.html'),'w') as f:
