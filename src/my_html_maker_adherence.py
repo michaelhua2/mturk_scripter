@@ -113,11 +113,11 @@ def mk_expt(args):
     practice_captions = json.load(open(opt['practice_captions_path'], 'r'))
     captions = []
 
-    for (nn,data) in enumerate(zip(which_ind0,which_ind1,which_side)):     
-        cur_which_ind0, cur_which_ind1, cur_which_side = data   
-        # if practice
+    for (nn,data) in enumerate(zip(which_alg, which_ind0,which_ind1,which_side)):     
+        cur_which_alg, cur_which_ind0, cur_which_ind1, cur_which_side = data   
         index_in_hit = nn % N
         if index_in_hit < P:
+            # if practice
             if(cur_which_side==0):
                 gt_side.append('left')
                 images_left.append(f"{opt['practice_good_path']}/{index_in_hit}.png")
@@ -128,7 +128,8 @@ def mk_expt(args):
                 images_right.append(f"{opt['practice_good_path']}/{index_in_hit}.png")
             caption = practice_captions[index_in_hit]
         else:
-            cur_alg_name = opt['which_algs_paths'][0]
+            # main experiment
+            cur_alg_name = opt['which_algs_paths'][cur_which_alg]
             if(cur_which_side==0):
                 gt_side.append('left')
                 images_left.append(('%s/'+opt['filename'](cur_which_ind0))%opt['gt_path'])
@@ -152,7 +153,7 @@ def mk_expt(args):
 
     # make an HTML file for each HIT
     for HIT_IDX in range(H):
-        html = fileread('src/mturk_scripts/templates/index_template.html', breakcode=breakcode)
+        html = fileread('src/mturk_scripts/templates/index_template_adherence.html', breakcode=breakcode)
         html = html.replace('{{UT_ID}}', opt['ut_id'])
         html = html.replace('{{BASE_URL}}', opt['base_url'])
         html = html.replace('{{INSTRUCTIONS}}', fileread(opt['instructions_file'], breakcode=breakcode))

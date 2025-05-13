@@ -369,6 +369,13 @@ function startPractice() {
     next();
 }
 
+function showPracticeStart(colorblind) {
+    $('#couhes').hide();
+    $('#is_colorblind').hide();
+    $('#practice_start').show();
+    p.is_colorblind = colorblind;
+}
+
 function startExperiment() {
     if (p == null) { return; }
     p.is_practice = true;
@@ -376,6 +383,7 @@ function startExperiment() {
     $('#long_info').hide();
     $('#couhes').hide();
     $('#teaser').hide();
+    $('#is_colorblind').show();
     if (p.is_practice) {
         $('#practice_start').show();
     }
@@ -432,6 +440,19 @@ function restartExperiment() {}
       <br>
       <div id = "buttons_continue" align=center>
           <button id="continue_button" type="button" onClick="continue_to_main_expt()">Continue!</button>
+      </div>
+    </div>
+
+    <div id = "is_colorblind" style="width: 1000px; margin: 0 auto; text-align: left; display:none">
+      <h2>Practice Start</h2>
+      <br>Let's begin with a practice. </br>
+      <br>
+      <br>
+      <div id = "buttons_continue" align=center>
+          <button id="continue_button" type="button" onClick="showPracticeStart(True)">Colorblind</button>
+      </div>
+      <div id = "buttons_continue" align=center>
+          <button id="continue_button" type="button" onClick="showPracticeStart(False)">Not Colorblind</button>
       </div>
     </div>
 
