@@ -19,10 +19,10 @@ def getOpts(expt_name):
     opt['captions_path'] = 'prompts.json'
     opt['practice_nouns_path'] = 'practice_nouns.json'
     opt['captions_nouns_path'] = 'nouns.json'
-    opt['Nimgs'] = 50
-    opt['Nperhit'] = 11
-    opt['Npractice'] = 1
-    opt['Nhits'] = 2
+    opt['Nimgs'] = 7000
+    opt['Nperhit'] = 35
+    opt['Npractice'] = 5
+    opt['Nhits'] = 200
     opt['ut_id'] = 'NA'
     opt['base_url'] = 'https://michaelhua2.github.io/'
     opt['instructions_file'] = 'templates/friendliness/instructions_basic_identity.html'
@@ -84,29 +84,31 @@ def mk_expt(args):
     # assert len(opt['which_algs_paths'])==1
 
     # i get a total of HxN number of comparisons
-    A = len(opt['which_algs_paths']) # = 1 
+    A = len(opt['which_algs_paths']) # = 3 
     H = opt['Nhits'] # number of hits
     I = opt['Nimgs'] # = 50 * 5
     N = opt['Nperhit'] # number of images per hit = 10
     P = opt['Npractice'] # number of practice trials per HIT 
 
     # make sure H*N = I
-    which_alg = np.random.randint(A, size=H*N)
-    print(which_alg)
+    which_alg = []
+    for i in range(H * N // A + 1):
+        for j in range(A):
+            which_alg.append(j)
+    np.random.seed(0)
+    np.random.shuffle(which_alg)
+    which_alg = np.array(which_alg)[:H*(N - P)].reshape((H, N - P))
 
     # img_indices = np.arange(I)
     img_indices = []
-    for i in range(I):
+    for i in range(H * (N - P) // 5):
         for seed in range(5):
-            img_indices.append(f"{i}_{seed}_")
-    img_indices = np.array(img_indices)
-    
-    # shuffle the indices with a fixed seed
-    np.random.seed(0)
+            img_indices.append(f"{i % 50}_{seed}_")
     np.random.shuffle(img_indices)
+    img_indices = np.array(img_indices).reshape((H, N - P))
 
     which_ind0 = which_ind1 = img_indices
-    which_side = np.random.randint(2, size=H*N) # randomize left or right
+    which_side = np.random.randint(2, size=(H, N)) # randomize left or right
     # vigilance = (np.random.rand(H*N) < opt['vigilance_freq']) * opt['use_vigilance']
 
     gt_side = []
@@ -118,45 +120,48 @@ def mk_expt(args):
     test_nouns = [noun['red'] for noun in test_nouns]
     practice_nouns = json.load(open(opt['practice_nouns_path'], 'r'))
     nouns = []
-
-    for (nn,data) in enumerate(zip(which_alg, which_ind0,which_ind1,which_side)):     
-        cur_which_alg, cur_which_ind0, cur_which_ind1, cur_which_side = data   
-        index_in_hit = nn % N
-        if index_in_hit < P:
+    for h in range(H):
+        for n in range(N):
             # if practice
-            if(cur_which_side==0):
-                gt_side.append('left')
-                # show the same practice image regardless if colorblind or not
-                images_left_rgb.append(f"{opt['practice_good_path']}/{index_in_hit}.jpg")
-                images_right_rgb.append(f"{opt['practice_bad_path']}/{index_in_hit}.jpg")
-                images_left_cvd.append(f"{opt['practice_good_path']}/{index_in_hit}.jpg")
-                images_right_cvd.append(f"{opt['practice_bad_path']}/{index_in_hit}.jpg")
+            index_in_hit = n
+            cur_which_side = which_side[h, n]
+            if n < P:
+                if(cur_which_side==0):
+                    gt_side.append('left')
+                    # show the same practice image regardless if colorblind or not
+                    images_left_rgb.append(f"{opt['practice_good_path']}/{index_in_hit}.jpg")
+                    images_right_rgb.append(f"{opt['practice_bad_path']}/{index_in_hit}.jpg")
+                    images_left_cvd.append(f"{opt['practice_good_path']}/{index_in_hit}.jpg")
+                    images_right_cvd.append(f"{opt['practice_bad_path']}/{index_in_hit}.jpg")
+                else:
+                    gt_side.append('right')
+                    images_left_rgb.append(f"{opt['practice_bad_path']}/{index_in_hit}.jpg")
+                    images_right_rgb.append(f"{opt['practice_good_path']}/{index_in_hit}.jpg")
+                    images_left_cvd.append(f"{opt['practice_bad_path']}/{index_in_hit}.jpg")
+                    images_right_cvd.append(f"{opt['practice_good_path']}/{index_in_hit}.jpg")
+                noun = practice_nouns[index_in_hit]
             else:
-                gt_side.append('right')
-                images_left_rgb.append(f"{opt['practice_bad_path']}/{index_in_hit}.jpg")
-                images_right_rgb.append(f"{opt['practice_good_path']}/{index_in_hit}.jpg")
-                images_left_cvd.append(f"{opt['practice_bad_path']}/{index_in_hit}.jpg")
-                images_right_cvd.append(f"{opt['practice_good_path']}/{index_in_hit}.jpg")
-            noun = practice_nouns[index_in_hit]
-        else:
-            # main experiment
-            cur_alg_name = opt['which_algs_paths'][cur_which_alg]
-            # print(cur_alg_name)
-            if(cur_which_side==0):
-                gt_side.append('left')
-                images_left_rgb.append(('%s/rgb/'+opt['filename'](cur_which_ind0))%opt['gt_path'])
-                images_right_rgb.append(('%s/rgb/'+opt['filename'](cur_which_ind1))%cur_alg_name)
-                images_left_cvd.append(('%s/cvd/'+opt['filename'](cur_which_ind0))%opt['gt_path'])
-                images_right_cvd.append(('%s/cvd/'+opt['filename'](cur_which_ind1))%cur_alg_name)
-            else:
-                gt_side.append('right')
-                images_left_rgb.append(('%s/rgb/'+opt['filename'](cur_which_ind0))%cur_alg_name)
-                images_right_rgb.append(('%s/rgb/'+opt['filename'](cur_which_ind1))%opt['gt_path'])
-                images_left_cvd.append(('%s/cvd/'+opt['filename'](cur_which_ind0))%cur_alg_name)
-                images_right_cvd.append(('%s/cvd/'+opt['filename'](cur_which_ind1))%opt['gt_path'])
-            noun = test_nouns[int(cur_which_ind0.split('_')[0])]
-        
-        nouns.append(noun)
+                # main experiment
+                cur_which_alg = which_alg[h, n - P]
+                cur_which_ind0 = which_ind0[h, n - P]
+                cur_which_ind1 = which_ind1[h, n - P]
+                cur_alg_name = opt['which_algs_paths'][cur_which_alg]
+                # print(cur_alg_name)
+                if(cur_which_side==0):
+                    gt_side.append('left')
+                    images_left_rgb.append(('%s/rgb/'+opt['filename'](cur_which_ind0))%opt['gt_path'])
+                    images_right_rgb.append(('%s/rgb/'+opt['filename'](cur_which_ind1))%cur_alg_name)
+                    images_left_cvd.append(('%s/cvd/'+opt['filename'](cur_which_ind0))%opt['gt_path'])
+                    images_right_cvd.append(('%s/cvd/'+opt['filename'](cur_which_ind1))%cur_alg_name)
+                else:
+                    gt_side.append('right')
+                    images_left_rgb.append(('%s/rgb/'+opt['filename'](cur_which_ind0))%cur_alg_name)
+                    images_right_rgb.append(('%s/rgb/'+opt['filename'](cur_which_ind1))%opt['gt_path'])
+                    images_left_cvd.append(('%s/cvd/'+opt['filename'](cur_which_ind0))%cur_alg_name)
+                    images_right_cvd.append(('%s/cvd/'+opt['filename'](cur_which_ind1))%opt['gt_path'])
+                noun = test_nouns[int(cur_which_ind0.split('_')[0])]
+            
+            nouns.append(noun)
     
     gt_side = np.array(gt_side).reshape((H,N)) # our method
     images_left_rgb = np.array(images_left_rgb).reshape((H,N))
