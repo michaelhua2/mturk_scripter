@@ -44,12 +44,12 @@ python src/my_html_maker_adherence.py  -n ours_vs_sd_prompt_adherence \
 ```
 # enter your access key and secret key in the L31-32
 python src/my_hit_launcher.py \
-    --folder outputs/mturk/prompt_adherence/ours_vs_sd_htmls_sandbox \
+    --folder "outputs/mturk/cvd_friendliness/ours_vs_sd_friendliness_htmls_sandbox" \
     --env_type "sandbox"
 ```
 
 - Go to the sandbox link and complete the study manually
 ```
 python src/result_parser.py \
-    --folder outputs/mturk/object_identity/ours_vs_ip_adapter_htmls_sandbox --env_type "sandbox"
+    --folder "outputs/mturk/cvd_friendliness/ours_vs_sd_friendliness_htmls_sandbox" --env_type "sandbox"
 ```

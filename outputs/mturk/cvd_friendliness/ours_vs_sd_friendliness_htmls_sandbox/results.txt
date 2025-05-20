@@ -1,0 +1,12 @@
+3ZCC2DXSEL3I1TOVS9EQJEZEEN7YYQ,selection0,practice,left,https://michaelhua2.github.io/practice_good_friendliness/0.jpg,https://michaelhua2.github.io/practice_bad_friendliness/0.jpg,true
+3ZCC2DXSEL3I1TOVS9EQJEZEEN7YYQ,selection1,test,left,https://michaelhua2.github.io/sd21/cvd/24_2_.jpg,https://michaelhua2.github.io/ours/cvd/24_2_.jpg
+3ZCC2DXSEL3I1TOVS9EQJEZEEN7YYQ,selection2,test,right,https://michaelhua2.github.io/sd21/cvd/18_2_.jpg,https://michaelhua2.github.io/ours/cvd/18_2_.jpg
+3ZCC2DXSEL3I1TOVS9EQJEZEEN7YYQ,selection3,test,right,https://michaelhua2.github.io/ours/cvd/31_2_.jpg,https://michaelhua2.github.io/sd21/cvd/31_2_.jpg
+3ZCC2DXSEL3I1TOVS9EQJEZEEN7YYQ,selection4,test,left,https://michaelhua2.github.io/dalton/cvd/30_4_.jpg,https://michaelhua2.github.io/ours/cvd/30_4_.jpg
+3ZCC2DXSEL3I1TOVS9EQJEZEEN7YYQ,selection5,test,right,https://michaelhua2.github.io/ours/cvd/32_1_.jpg,https://michaelhua2.github.io/dalton/cvd/32_1_.jpg
+3ZCC2DXSEL3I1TOVS9EQJEZEEN7YYQ,selection6,test,left,https://michaelhua2.github.io/ours/cvd/39_3_.jpg,https://michaelhua2.github.io/sd21/cvd/39_3_.jpg
+3ZCC2DXSEL3I1TOVS9EQJEZEEN7YYQ,selection7,test,left,https://michaelhua2.github.io/jiabin/cvd/16_3_.jpg,https://michaelhua2.github.io/ours/cvd/16_3_.jpg
+3ZCC2DXSEL3I1TOVS9EQJEZEEN7YYQ,selection8,test,right,https://michaelhua2.github.io/ours/cvd/12_3_.jpg,https://michaelhua2.github.io/dalton/cvd/12_3_.jpg
+3ZCC2DXSEL3I1TOVS9EQJEZEEN7YYQ,selection9,test,right,https://michaelhua2.github.io/dalton/cvd/31_0_.jpg,https://michaelhua2.github.io/ours/cvd/31_0_.jpg
+3ZCC2DXSEL3I1TOVS9EQJEZEEN7YYQ,selection10,test,right,https://michaelhua2.github.io/ours/cvd/43_3_.jpg,https://michaelhua2.github.io/jiabin/cvd/43_3_.jpg
+3ZCC2DXSEL3I1TOVS9EQJEZEEN7YYQ,comments,Comments?

@@ -11,18 +11,20 @@ def fileread(str,breakcode='[[BR]]'):
 
 def getOpts(expt_name):
     opt = getDefaultOpts()
-    opt['gt_path'] = 'sd_friendliness'
+    opt['gt_path'] = 'ours'
     opt['practice_good_path'] = 'practice_good_friendliness'
     opt['practice_bad_path'] = 'practice_bad_friendliness'
-    opt['which_algs_paths'] = ['ours_friendliness']
-    opt['practice_captions_path'] = 'practice_captions.json'
-    opt['captions_path'] = 'captions.json'
+    opt['which_algs_paths'] = ['sd21', 'dalton', 'jiabin']
+    opt['practice_captions_path'] = 'practice_prompts.json'
+    opt['captions_path'] = 'prompts.json'
+    opt['practice_nouns_path'] = 'practice_nouns.json'
+    opt['captions_nouns_path'] = 'nouns.json'
     opt['Nimgs'] = 50
-    opt['Nperhit'] = 15
-    opt['Npractice'] = 5
+    opt['Nperhit'] = 11
+    opt['Npractice'] = 1
     opt['Nhits'] = 2
     opt['ut_id'] = 'NA'
-    opt['base_url'] = 'http://baymax.ri.cmu.edu:8001/outputs/tests/mturk/'
+    opt['base_url'] = 'https://michaelhua2.github.io/'
     opt['instructions_file'] = 'templates/friendliness/instructions_basic_identity.html'
     opt['short_instructions_file'] = 'templates/friendliness/short_instructions_identity.html'
     opt['consent_file'] = 'templates/friendliness/consent_basic.html'
@@ -79,7 +81,7 @@ def mk_expt(args):
     os.makedirs(os.path.join(args.output_folder, "htmls"), exist_ok=True)
     
     assert opt['paired']
-    assert len(opt['which_algs_paths'])==1
+    # assert len(opt['which_algs_paths'])==1
 
     # i get a total of HxN number of comparisons
     A = len(opt['which_algs_paths']) # = 1 
@@ -90,6 +92,7 @@ def mk_expt(args):
 
     # make sure H*N = I
     which_alg = np.random.randint(A, size=H*N)
+    print(which_alg)
 
     # img_indices = np.arange(I)
     img_indices = []
@@ -107,57 +110,71 @@ def mk_expt(args):
     # vigilance = (np.random.rand(H*N) < opt['vigilance_freq']) * opt['use_vigilance']
 
     gt_side = []
-    images_left = []
-    images_right = []
-    test_captions = json.load(open(opt['captions_path'], 'r'))
-    practice_captions = json.load(open(opt['practice_captions_path'], 'r'))
-    captions = []
+    images_left_rgb = []
+    images_right_rgb = []
+    images_left_cvd = []
+    images_right_cvd = []
+    test_nouns = json.load(open(opt['captions_nouns_path'], 'r'))
+    test_nouns = [noun['red'] for noun in test_nouns]
+    practice_nouns = json.load(open(opt['practice_nouns_path'], 'r'))
+    nouns = []
 
-    for (nn,data) in enumerate(zip(which_ind0,which_ind1,which_side)):     
-        cur_which_ind0, cur_which_ind1, cur_which_side = data   
-        # if practice
+    for (nn,data) in enumerate(zip(which_alg, which_ind0,which_ind1,which_side)):     
+        cur_which_alg, cur_which_ind0, cur_which_ind1, cur_which_side = data   
         index_in_hit = nn % N
         if index_in_hit < P:
+            # if practice
             if(cur_which_side==0):
                 gt_side.append('left')
-                images_left.append(f"{opt['practice_good_path']}/{index_in_hit}.png")
-                images_right.append(f"{opt['practice_bad_path']}/{index_in_hit}.png")
+                # show the same practice image regardless if colorblind or not
+                images_left_rgb.append(f"{opt['practice_good_path']}/{index_in_hit}.jpg")
+                images_right_rgb.append(f"{opt['practice_bad_path']}/{index_in_hit}.jpg")
+                images_left_cvd.append(f"{opt['practice_good_path']}/{index_in_hit}.jpg")
+                images_right_cvd.append(f"{opt['practice_bad_path']}/{index_in_hit}.jpg")
             else:
                 gt_side.append('right')
-                images_left.append(f"{opt['practice_bad_path']}/{index_in_hit}.png")
-                images_right.append(f"{opt['practice_good_path']}/{index_in_hit}.png")
-            caption = practice_captions[index_in_hit]
+                images_left_rgb.append(f"{opt['practice_bad_path']}/{index_in_hit}.jpg")
+                images_right_rgb.append(f"{opt['practice_good_path']}/{index_in_hit}.jpg")
+                images_left_cvd.append(f"{opt['practice_bad_path']}/{index_in_hit}.jpg")
+                images_right_cvd.append(f"{opt['practice_good_path']}/{index_in_hit}.jpg")
+            noun = practice_nouns[index_in_hit]
         else:
-            cur_alg_name = opt['which_algs_paths'][0]
+            # main experiment
+            cur_alg_name = opt['which_algs_paths'][cur_which_alg]
+            # print(cur_alg_name)
             if(cur_which_side==0):
                 gt_side.append('left')
-                images_left.append(('%s/'+opt['filename'](cur_which_ind0))%opt['gt_path'])
-                images_right.append(('%s/'+opt['filename'](cur_which_ind1))%cur_alg_name)
+                images_left_rgb.append(('%s/rgb/'+opt['filename'](cur_which_ind0))%opt['gt_path'])
+                images_right_rgb.append(('%s/rgb/'+opt['filename'](cur_which_ind1))%cur_alg_name)
+                images_left_cvd.append(('%s/cvd/'+opt['filename'](cur_which_ind0))%opt['gt_path'])
+                images_right_cvd.append(('%s/cvd/'+opt['filename'](cur_which_ind1))%cur_alg_name)
             else:
                 gt_side.append('right')
-                images_left.append(('%s/'+opt['filename'](cur_which_ind0))%cur_alg_name)
-                images_right.append(('%s/'+opt['filename'](cur_which_ind1))%opt['gt_path'])
-            caption = test_captions[int(cur_which_ind0.split('_')[0])]
+                images_left_rgb.append(('%s/rgb/'+opt['filename'](cur_which_ind0))%cur_alg_name)
+                images_right_rgb.append(('%s/rgb/'+opt['filename'](cur_which_ind1))%opt['gt_path'])
+                images_left_cvd.append(('%s/cvd/'+opt['filename'](cur_which_ind0))%cur_alg_name)
+                images_right_cvd.append(('%s/cvd/'+opt['filename'](cur_which_ind1))%opt['gt_path'])
+            noun = test_nouns[int(cur_which_ind0.split('_')[0])]
         
-        captions.append(caption)
+        nouns.append(noun)
     
     gt_side = np.array(gt_side).reshape((H,N)) # our method
-    images_left = np.array(images_left).reshape((H,N))
-    images_right = np.array(images_right).reshape((H,N))
-    captions = np.array(captions).reshape((H,N))
+    images_left_rgb = np.array(images_left_rgb).reshape((H,N))
+    images_left_cvd = np.array(images_left_cvd).reshape((H,N))
+    images_right_rgb = np.array(images_right_rgb).reshape((H,N))
+    images_right_cvd = np.array(images_right_cvd).reshape((H,N))
+    nouns = np.array(nouns).reshape((H,N))
 
-    # ipdb.set_trace()
-    
+    is_practice = "true" if P > 0 else "false"    
     breakcode='[[BR]]'
 
     # make an HTML file for each HIT
     for HIT_IDX in range(H):
-        html = fileread('src/mturk_scripts/templates/index_template.html', breakcode=breakcode)
+        html = fileread('src/mturk_scripts/templates/index_template_friendliness.html', breakcode=breakcode)
         html = html.replace('{{UT_ID}}', opt['ut_id'])
         html = html.replace('{{BASE_URL}}', opt['base_url'])
         html = html.replace('{{INSTRUCTIONS}}', fileread(opt['instructions_file'], breakcode=breakcode))
-        html = html.replace('{{SHORT_INSTRUCTIONS}}', fileread(opt['short_instructions_file'], breakcode=breakcode))
-        html = html.replace('{{CAPTION}}', f"{HIT_IDX}")
+        html = html.replace('{{NOUN}}', nouns[HIT_IDX][0])
         html = html.replace('{{CONSENT}}', fileread(opt['consent_file'], breakcode=breakcode))
         html = html.replace('{{IM_DIV_HEIGHT}}', '%i'%(50+2))
         html = html.replace('{{IM_DIV_WIDTH}}', '%i'%(opt['im_width']+2))
@@ -165,8 +182,9 @@ def mk_expt(args):
         html = html.replace('{{IM_WIDTH}}', '%i'%(opt['im_width']))
         html = html.replace('{{N_PRACTICE}}', '%i'%(opt['Npractice']))
         html = html.replace('{{TOTAL_NUM_IMS}}', '%i'%(opt['Nperhit']))
+        html = html.replace('{{IS_PRACTICE}}', is_practice)
         # ipdb.set_trace()
-        s = (' ').join([f'sequence_helper("{gt_side[HIT_IDX][i]}","{images_left[HIT_IDX][i]}","{images_right[HIT_IDX][i]}", "{captions[HIT_IDX][i]}");\n' for i in range(opt['Nperhit'])]) 
+        s = (' ').join([f'sequence_helper("{gt_side[HIT_IDX][i]}","{images_left_rgb[HIT_IDX][i]}","{images_right_rgb[HIT_IDX][i]}", "{images_left_cvd[HIT_IDX][i]}", "{images_right_cvd[HIT_IDX][i]}", "{nouns[HIT_IDX][i]}");\n' for i in range(opt['Nperhit'])]) 
         html = html.replace('{{SEQUENCE}}', s)
         s = (' ').join(['<input type="hidden" name="selection%d" id="selection%d" value="unset">\n'%(i,i) for i in range(opt['Nperhit'])])
         html = html.replace('{{SELECTION}}', s)

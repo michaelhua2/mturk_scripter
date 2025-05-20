@@ -11,15 +11,15 @@ def fileread(str,breakcode='[[BR]]'):
 
 def getOpts(expt_name):
     opt = getDefaultOpts()
-    opt['gt_path'] = 'sd_adherence'
+    opt['gt_path'] = 'ours'
     opt['practice_good_path'] = 'practice_good_adherence'
     opt['practice_bad_path'] = 'practice_bad_adherence'
-    opt['which_algs_paths'] = ['ours_adherence']
+    opt['which_algs_paths'] = ['sd21', 'dalton', 'jiabin']
     opt['practice_captions_path'] = 'practice_captions.json'
     opt['captions_path'] = 'captions.json'
     opt['Nimgs'] = 50
-    opt['Nperhit'] = 15
-    opt['Npractice'] = 5
+    opt['Nperhit'] = 11
+    opt['Npractice'] = 1
     opt['Nhits'] = 2
     opt['ut_id'] = 'NA'
     opt['base_url'] = 'http://baymax.ri.cmu.edu:8001/outputs/tests/mturk/'
@@ -79,7 +79,7 @@ def mk_expt(args):
     os.makedirs(os.path.join(args.output_folder, "htmls"), exist_ok=True)
     
     assert opt['paired']
-    assert len(opt['which_algs_paths'])==1
+    # assert len(opt['which_algs_paths'])==1
 
     # i get a total of HxN number of comparisons
     A = len(opt['which_algs_paths']) # = 1 
@@ -90,6 +90,7 @@ def mk_expt(args):
 
     # make sure H*N = I
     which_alg = np.random.randint(A, size=H*N)
+    print(which_alg)
 
     # img_indices = np.arange(I)
     img_indices = []
@@ -107,8 +108,10 @@ def mk_expt(args):
     # vigilance = (np.random.rand(H*N) < opt['vigilance_freq']) * opt['use_vigilance']
 
     gt_side = []
-    images_left = []
-    images_right = []
+    images_left_rgb = []
+    images_right_rgb = []
+    images_left_cvd = []
+    images_right_cvd = []
     test_captions = json.load(open(opt['captions_path'], 'r'))
     practice_captions = json.load(open(opt['practice_captions_path'], 'r'))
     captions = []
@@ -120,35 +123,46 @@ def mk_expt(args):
             # if practice
             if(cur_which_side==0):
                 gt_side.append('left')
-                images_left.append(f"{opt['practice_good_path']}/{index_in_hit}.png")
-                images_right.append(f"{opt['practice_bad_path']}/{index_in_hit}.png")
+                # show the same practice image regardless if colorblind or not
+                images_left_rgb.append(f"{opt['practice_good_path']}/{index_in_hit}.png")
+                images_right_rgb.append(f"{opt['practice_bad_path']}/{index_in_hit}.png")
+                images_left_cvd.append(f"{opt['practice_good_path']}/{index_in_hit}.png")
+                images_right_cvd.append(f"{opt['practice_bad_path']}/{index_in_hit}.png")
             else:
                 gt_side.append('right')
-                images_left.append(f"{opt['practice_bad_path']}/{index_in_hit}.png")
-                images_right.append(f"{opt['practice_good_path']}/{index_in_hit}.png")
+                images_left_rgb.append(f"{opt['practice_bad_path']}/{index_in_hit}.png")
+                images_right_rgb.append(f"{opt['practice_good_path']}/{index_in_hit}.png")
+                images_left_cvd.append(f"{opt['practice_bad_path']}/{index_in_hit}.png")
+                images_right_cvd.append(f"{opt['practice_good_path']}/{index_in_hit}.png")
             caption = practice_captions[index_in_hit]
         else:
             # main experiment
             cur_alg_name = opt['which_algs_paths'][cur_which_alg]
+            print(cur_alg_name)
             if(cur_which_side==0):
                 gt_side.append('left')
-                images_left.append(('%s/'+opt['filename'](cur_which_ind0))%opt['gt_path'])
-                images_right.append(('%s/'+opt['filename'](cur_which_ind1))%cur_alg_name)
+                images_left_rgb.append(('%s/rgb/'+opt['filename'](cur_which_ind0))%opt['gt_path'])
+                images_right_rgb.append(('%s/rgb/'+opt['filename'](cur_which_ind1))%cur_alg_name)
+                images_left_cvd.append(('%s/cvd/'+opt['filename'](cur_which_ind0))%opt['gt_path'])
+                images_right_cvd.append(('%s/cvd/'+opt['filename'](cur_which_ind1))%cur_alg_name)
             else:
                 gt_side.append('right')
-                images_left.append(('%s/'+opt['filename'](cur_which_ind0))%cur_alg_name)
-                images_right.append(('%s/'+opt['filename'](cur_which_ind1))%opt['gt_path'])
+                images_left_rgb.append(('%s/rgb/'+opt['filename'](cur_which_ind0))%cur_alg_name)
+                images_right_rgb.append(('%s/rgb/'+opt['filename'](cur_which_ind1))%opt['gt_path'])
+                images_left_cvd.append(('%s/cvd/'+opt['filename'](cur_which_ind0))%cur_alg_name)
+                images_right_cvd.append(('%s/cvd/'+opt['filename'](cur_which_ind1))%opt['gt_path'])
             caption = test_captions[int(cur_which_ind0.split('_')[0])]
         
         captions.append(caption)
     
     gt_side = np.array(gt_side).reshape((H,N)) # our method
-    images_left = np.array(images_left).reshape((H,N))
-    images_right = np.array(images_right).reshape((H,N))
+    images_left_rgb = np.array(images_left_rgb).reshape((H,N))
+    images_left_cvd = np.array(images_left_cvd).reshape((H,N))
+    images_right_rgb = np.array(images_right_rgb).reshape((H,N))
+    images_right_cvd = np.array(images_right_cvd).reshape((H,N))
     captions = np.array(captions).reshape((H,N))
 
-    # ipdb.set_trace()
-    
+    is_practice = "true" if P > 0 else "false"    
     breakcode='[[BR]]'
 
     # make an HTML file for each HIT
@@ -166,8 +180,9 @@ def mk_expt(args):
         html = html.replace('{{IM_WIDTH}}', '%i'%(opt['im_width']))
         html = html.replace('{{N_PRACTICE}}', '%i'%(opt['Npractice']))
         html = html.replace('{{TOTAL_NUM_IMS}}', '%i'%(opt['Nperhit']))
+        html = html.replace('{{IS_PRACTICE}}', is_practice)
         # ipdb.set_trace()
-        s = (' ').join([f'sequence_helper("{gt_side[HIT_IDX][i]}","{images_left[HIT_IDX][i]}","{images_right[HIT_IDX][i]}", "{captions[HIT_IDX][i]}");\n' for i in range(opt['Nperhit'])]) 
+        s = (' ').join([f'sequence_helper("{gt_side[HIT_IDX][i]}","{images_left_rgb[HIT_IDX][i]}","{images_right_rgb[HIT_IDX][i]}", "{images_left_cvd[HIT_IDX][i]}", "{images_right_cvd[HIT_IDX][i]}", "{captions[HIT_IDX][i]}");\n' for i in range(opt['Nperhit'])]) 
         html = html.replace('{{SEQUENCE}}', s)
         s = (' ').join(['<input type="hidden" name="selection%d" id="selection%d" value="unset">\n'%(i,i) for i in range(opt['Nperhit'])])
         html = html.replace('{{SELECTION}}', s)

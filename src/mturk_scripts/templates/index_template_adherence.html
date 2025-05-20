@@ -146,20 +146,26 @@ function setBodyHeight() {
   $('body').height(wh); // body height = window height
 }
 
-function sequence_helper(gt_side,image_left,image_right, caption) {
+function sequence_helper(gt_side,image_left_rgb,image_right_rgb, image_left_cvd, image_right_cvd, caption) {
     var curr_im = null;
     p.gt_side.push(gt_side);
     curr_im = new Image();
-    curr_im.src = base_url + image_left;
-    p.images_left.push(curr_im);
+    curr_im.src = base_url + image_left_rgb;
+    p.images_left_rgb.push(curr_im);
     curr_im = new Image();
-    curr_im.src = base_url + image_right;
-    p.images_right.push(curr_im);
+    curr_im.src = base_url + image_right_rgb;
+    p.images_right_rgb.push(curr_im);
+    curr_im = new Image();
+    curr_im.src = base_url + image_left_cvd;
+    p.images_left_cvd.push(curr_im);
+    curr_im = new Image();
+    curr_im.src = base_url + image_right_cvd;
+    p.images_right_cvd.push(curr_im);
     p.captions.push(caption);
 }
 
 function makeExperiment() {
-    p.is_practice = true
+    p.is_practice = {{IS_PRACTICE}};
     p.im_num = 0
     p.initialized = false;
     p.is_assigned = ($.getUrlVar('assignmentId') != 'ASSIGNMENT_ID_NOT_AVAILABLE')
@@ -169,6 +175,10 @@ function makeExperiment() {
     p.total_num_ims = {{TOTAL_NUM_IMS}}
     
     p.gt_side = []
+    p.images_left_rgb = []
+    p.images_right_rgb = []
+    p.images_left_cvd = []
+    p.images_right_cvd = []
     p.images_left = []
     p.images_right = []
     p.captions = []
@@ -369,28 +379,37 @@ function startPractice() {
     next();
 }
 
-function showPracticeStart(colorblind) {
-    $('#couhes').hide();
+function finishColorblind(is_colorblind) {
     $('#is_colorblind').hide();
-    $('#practice_start').show();
-    p.is_colorblind = colorblind;
+    p.is_colorblind = is_colorblind;
+    if (p.is_colorblind) {
+        p.images_left = p.images_left_rgb;
+        p.images_right = p.images_right_rgb;
+    }
+    else {
+        p.images_left = p.images_left_rgb;
+        p.images_right = p.images_right_rgb;
+    }
+    
+    if (p.is_practice) {
+        $('#practice_start').show();
+    }
+    else {
+        $('#images_div').show();
+        next();
+    }
+    
 }
 
 function startExperiment() {
     if (p == null) { return; }
-    p.is_practice = true;
     $('#buttons_start').hide();
     $('#long_info').hide();
     $('#couhes').hide();
     $('#teaser').hide();
     $('#is_colorblind').show();
-    if (p.is_practice) {
-        $('#practice_start').show();
-    }
-    else {
-        next();
-    }
-    
+    var colorblind_test = document.getElementById('colorblind_test');
+    colorblind_test.src = base_url + "colorblind_test.png";
 }
 
 
@@ -444,15 +463,14 @@ function restartExperiment() {}
     </div>
 
     <div id = "is_colorblind" style="width: 1000px; margin: 0 auto; text-align: left; display:none">
-      <h2>Practice Start</h2>
-      <br>Let's begin with a practice. </br>
+      <h2>Colorblind Selection</h2>
+      <br>Are you red-green colorblind? Please select yes if you have trouble identifying the number in the following image. </br>
       <br>
+      <div align=center><img id="colorblind_test" style="display:block;" width="{{IM_WIDTH}}px" align=center/></div>
       <br>
       <div id = "buttons_continue" align=center>
-          <button id="continue_button" type="button" onClick="showPracticeStart(True)">Colorblind</button>
-      </div>
-      <div id = "buttons_continue" align=center>
-          <button id="continue_button" type="button" onClick="showPracticeStart(False)">Not Colorblind</button>
+          <button id="continue_button" type="button" onClick="finishColorblind(true)">Yes, I am.</button>
+          <button id="continue_button" type="button" onClick="finishColorblind(false)">No, I am not.</button>
       </div>
     </div>
 
