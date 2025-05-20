@@ -72,7 +72,7 @@ if __name__=="__main__":
             worker_requirements = []
         # Create the HIT
         response = client.create_hit(
-            MaxAssignments=3,
+            MaxAssignments=5,
             LifetimeInSeconds=10_000,
             AssignmentDurationInSeconds=600,
             Reward=mturk_environment['reward'],

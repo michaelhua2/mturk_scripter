@@ -51,7 +51,7 @@ if __name__=="__main__":
         namespace = {'ns': 'http://mechanicalturk.amazonaws.com/AWSMechanicalTurkDataSchemas/2005-10-01/QuestionFormAnswers.xsd'}
         for assign_idx, assignment in enumerate(assignments):
             root = ET.fromstring(assignment['Answer'])
-            practice_correct = True
+            num_practice_incorrect = 0
             for answer in root.findall('ns:Answer', namespace):
                 identifier = answer.find('ns:QuestionIdentifier', namespace).text
                 free_text = answer.find('ns:FreeText', namespace).text
@@ -65,8 +65,9 @@ if __name__=="__main__":
                     if mode == "practice":
                         is_correct = free_text.split(",")[4]
                         if is_correct == "false":
-                            practice_correct = False
-                            break
+                            num_practice_incorrect += 1
+                            if num_practice_incorrect > 1:
+                                break
                         continue
                     
                     assert mode == "test"

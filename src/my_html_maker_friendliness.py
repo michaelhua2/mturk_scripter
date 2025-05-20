@@ -19,10 +19,10 @@ def getOpts(expt_name):
     opt['captions_path'] = 'prompts.json'
     opt['practice_nouns_path'] = 'practice_nouns.json'
     opt['captions_nouns_path'] = 'nouns.json'
-    opt['Nimgs'] = 7000
+    opt['Nimgs'] = 875
     opt['Nperhit'] = 35
     opt['Npractice'] = 5
-    opt['Nhits'] = 200
+    opt['Nhits'] = 25
     opt['ut_id'] = 'NA'
     opt['base_url'] = 'https://michaelhua2.github.io/'
     opt['instructions_file'] = 'templates/friendliness/instructions_basic_identity.html'
