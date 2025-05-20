@@ -46,10 +46,15 @@ python src/my_html_maker_adherence.py  -n ours_vs_sd_prompt_adherence \
 python src/my_hit_launcher.py \
     --folder "outputs/mturk/cvd_friendliness/ours_vs_sd_friendliness_htmls_sandbox" \
     --env_type "sandbox"
+python src/my_hit_launcher.py \
+    --folder "outputs/mturk/prompt_adherence/ours_vs_sd_adherence_htmls_sandbox" \
+    --env_type "sandbox"
 ```
 
 - Go to the sandbox link and complete the study manually
 ```
 python src/result_parser.py \
     --folder "outputs/mturk/cvd_friendliness/ours_vs_sd_friendliness_htmls_sandbox" --env_type "sandbox"
+python src/result_parser.py \
+    --folder "outputs/mturk/prompt_adherence/ours_vs_sd_adherence_htmls_sandbox" --env_type "sandbox"
 ```

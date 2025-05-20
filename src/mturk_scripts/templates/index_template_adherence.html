@@ -346,7 +346,7 @@ function submitAnswer(answer) {
            $('#imageA_div').show();
            $('#imageB_div').show();
         
-        $("#selection"+(p.im_num)).val(answer);
+        $("#selection"+(p.im_num)).val("practice,"+answer+","+imageA_url+","+imageB_url+","+is_correct);
         
         p.im_num = p.im_num+1;
                 

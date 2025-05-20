@@ -1,6 +1,7 @@
 import os, sys, pdb, argparse, dotenv
 from glob import glob
 import boto3
+from datetime import datetime
 
 environments = {
     "live": {
@@ -17,7 +18,6 @@ environments = {
     },
 }
 region_name = 'us-east-1'
-
 dotenv.load_dotenv()
 aws_access_key_id = os.getenv("AWS_ACCESS_KEY_ID")
 aws_secret_access_key = os.getenv("AWS_SECRET_ACCESS_KEY")

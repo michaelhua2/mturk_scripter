@@ -19,10 +19,10 @@ def getOpts(expt_name):
     opt['captions_path'] = 'prompts.json'
     opt['practice_nouns_path'] = 'practice_nouns.json'
     opt['captions_nouns_path'] = 'nouns.json'
-    opt['Nimgs'] = 875
-    opt['Nperhit'] = 35
+    opt['Nimgs'] = 900
+    opt['Nperhit'] = 30
     opt['Npractice'] = 5
-    opt['Nhits'] = 25
+    opt['Nhits'] = 30
     opt['ut_id'] = 'NA'
     opt['base_url'] = 'https://michaelhua2.github.io/'
     opt['instructions_file'] = 'templates/friendliness/instructions_basic_identity.html'
@@ -85,27 +85,21 @@ def mk_expt(args):
 
     # i get a total of HxN number of comparisons
     A = len(opt['which_algs_paths']) # = 3 
-    H = opt['Nhits'] # number of hits
-    I = opt['Nimgs'] # = 50 * 5
-    N = opt['Nperhit'] # number of images per hit = 10
-    P = opt['Npractice'] # number of practice trials per HIT 
+    H = 30 # number of hits
+    N = 30 # number of images per hit = 10
+    P = 5 # number of practice trials per HIT 
+
+    np.random.seed(0)
 
     # make sure H*N = I
-    which_alg = []
-    for i in range(H * N // A + 1):
-        for j in range(A):
-            which_alg.append(j)
-    np.random.seed(0)
-    np.random.shuffle(which_alg)
-    which_alg = np.array(which_alg)[:H*(N - P)].reshape((H, N - P))
-
-    # img_indices = np.arange(I)
-    img_indices = []
-    for i in range(H * (N - P) // 5):
+    all_comparisons = []
+    for i in range(50):
         for seed in range(5):
-            img_indices.append(f"{i % 50}_{seed}_")
-    np.random.shuffle(img_indices)
-    img_indices = np.array(img_indices).reshape((H, N - P))
+            for baseline_idx in range(A):
+                all_comparisons.append((i, seed, baseline_idx))
+    
+    all_comparisons = np.array(all_comparisons)
+    np.random.shuffle(all_comparisons)
 
     which_ind0 = which_ind1 = img_indices
     which_side = np.random.randint(2, size=(H, N)) # randomize left or right
@@ -123,7 +117,7 @@ def mk_expt(args):
     for h in range(H):
         for n in range(N):
             # if practice
-            index_in_hit = n
+            index_in_hit = f"{i}_{seed}_"
             cur_which_side = which_side[h, n]
             if n < P:
                 if(cur_which_side==0):
@@ -142,24 +136,23 @@ def mk_expt(args):
                 noun = practice_nouns[index_in_hit]
             else:
                 # main experiment
-                cur_which_alg = which_alg[h, n - P]
-                cur_which_ind0 = which_ind0[h, n - P]
-                cur_which_ind1 = which_ind1[h, n - P]
+                idx, seed, cur_which_alg = all_comparisons[h * N + (n - P)]
+                idx_seed = f"{idx}_{seed}_"
                 cur_alg_name = opt['which_algs_paths'][cur_which_alg]
                 # print(cur_alg_name)
                 if(cur_which_side==0):
                     gt_side.append('left')
-                    images_left_rgb.append(('%s/rgb/'+opt['filename'](cur_which_ind0))%opt['gt_path'])
-                    images_right_rgb.append(('%s/rgb/'+opt['filename'](cur_which_ind1))%cur_alg_name)
-                    images_left_cvd.append(('%s/cvd/'+opt['filename'](cur_which_ind0))%opt['gt_path'])
-                    images_right_cvd.append(('%s/cvd/'+opt['filename'](cur_which_ind1))%cur_alg_name)
+                    images_left_rgb.append(('%s/rgb/'+opt['filename'](idx_seed))%opt['gt_path'])
+                    images_right_rgb.append(('%s/rgb/'+opt['filename'](idx_seed))%cur_alg_name)
+                    images_left_cvd.append(('%s/cvd/'+opt['filename'](idx_seed))%opt['gt_path'])
+                    images_right_cvd.append(('%s/cvd/'+opt['filename'](idx_seed))%cur_alg_name)
                 else:
                     gt_side.append('right')
-                    images_left_rgb.append(('%s/rgb/'+opt['filename'](cur_which_ind0))%cur_alg_name)
-                    images_right_rgb.append(('%s/rgb/'+opt['filename'](cur_which_ind1))%opt['gt_path'])
-                    images_left_cvd.append(('%s/cvd/'+opt['filename'](cur_which_ind0))%cur_alg_name)
-                    images_right_cvd.append(('%s/cvd/'+opt['filename'](cur_which_ind1))%opt['gt_path'])
-                noun = test_nouns[int(cur_which_ind0.split('_')[0])]
+                    images_left_rgb.append(('%s/rgb/'+opt['filename'](idx_seed))%cur_alg_name)
+                    images_right_rgb.append(('%s/rgb/'+opt['filename'](idx_seed))%opt['gt_path'])
+                    images_left_cvd.append(('%s/cvd/'+opt['filename'](idx_seed))%cur_alg_name)
+                    images_right_cvd.append(('%s/cvd/'+opt['filename'](idx_seed))%opt['gt_path'])
+                noun = test_nouns[idx]
             
             nouns.append(noun)
     
