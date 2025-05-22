@@ -1,6 +1,8 @@
 import os, sys, ipdb, argparse, string, json
 import numpy as np
 
+with open('config.json', 'r') as f:
+    config = json.load(f)
 
 def fileread(str,breakcode='[[BR]]'):
     fid = open(str,'r')
@@ -11,18 +13,20 @@ def fileread(str,breakcode='[[BR]]'):
 
 def getOpts(expt_name):
     opt = getDefaultOpts()
-    opt['gt_path'] = 'ours'
+    opt['gt_path'] = config['ours']
     opt['practice_good_path'] = 'practice_good_friendliness'
     opt['practice_bad_path'] = 'practice_bad_friendliness'
-    opt['which_algs_paths'] = ['sd21', 'dalton', 'jiabin']
+    # opt['which_algs_paths'] = ['sd21', 'dalton', 'jiabin']
+    # opt['which_algs_paths'] = ['dg', 'simd']
+    opt['which_algs_paths'] = config['other_methods']
     opt['practice_captions_path'] = 'practice_prompts.json'
     opt['captions_path'] = 'prompts.json'
     opt['practice_nouns_path'] = 'practice_nouns.json'
     opt['captions_nouns_path'] = 'nouns.json'
-    opt['Nimgs'] = 900
+    opt['Nimgs'] = 300 * len(opt['which_algs_paths']) # 300 images per alg
     opt['Nperhit'] = 30
     opt['Npractice'] = 5
-    opt['Nhits'] = 30
+    opt['Nhits'] = 10 * len(opt['which_algs_paths']) # 10 hits per alg
     opt['ut_id'] = 'NA'
     opt['base_url'] = 'https://michaelhua2.github.io/'
     opt['instructions_file'] = 'templates/friendliness/instructions_basic_identity.html'
@@ -81,13 +85,12 @@ def mk_expt(args):
     os.makedirs(os.path.join(args.output_folder, "htmls"), exist_ok=True)
     
     assert opt['paired']
-    # assert len(opt['which_algs_paths'])==1
 
     # i get a total of HxN number of comparisons
-    A = len(opt['which_algs_paths']) # = 3 
-    H = 30 # number of hits
-    N = 30 # number of images per hit = 10
-    P = 5 # number of practice trials per HIT 
+    A = len(opt['which_algs_paths']) # = 2 
+    H = opt['Nhits'] # number of hits
+    N = opt['Nperhit'] # number of images per hit = 10
+    P = opt['Npractice'] # number of practice trials per HIT 
 
     np.random.seed(0)
 
@@ -101,7 +104,6 @@ def mk_expt(args):
     all_comparisons = np.array(all_comparisons)
     np.random.shuffle(all_comparisons)
 
-    which_ind0 = which_ind1 = img_indices
     which_side = np.random.randint(2, size=(H, N)) # randomize left or right
     # vigilance = (np.random.rand(H*N) < opt['vigilance_freq']) * opt['use_vigilance']
 
@@ -117,26 +119,29 @@ def mk_expt(args):
     for h in range(H):
         for n in range(N):
             # if practice
-            index_in_hit = f"{i}_{seed}_"
             cur_which_side = which_side[h, n]
             if n < P:
                 if(cur_which_side==0):
                     gt_side.append('left')
                     # show the same practice image regardless if colorblind or not
-                    images_left_rgb.append(f"{opt['practice_good_path']}/{index_in_hit}.jpg")
-                    images_right_rgb.append(f"{opt['practice_bad_path']}/{index_in_hit}.jpg")
-                    images_left_cvd.append(f"{opt['practice_good_path']}/{index_in_hit}.jpg")
-                    images_right_cvd.append(f"{opt['practice_bad_path']}/{index_in_hit}.jpg")
+                    images_left_rgb.append(f"{opt['practice_good_path']}/{n}.jpg")
+                    images_right_rgb.append(f"{opt['practice_bad_path']}/{n}.jpg")
+                    images_left_cvd.append(f"{opt['practice_good_path']}/{n}.jpg")
+                    images_right_cvd.append(f"{opt['practice_bad_path']}/{n}.jpg")
                 else:
                     gt_side.append('right')
-                    images_left_rgb.append(f"{opt['practice_bad_path']}/{index_in_hit}.jpg")
-                    images_right_rgb.append(f"{opt['practice_good_path']}/{index_in_hit}.jpg")
-                    images_left_cvd.append(f"{opt['practice_bad_path']}/{index_in_hit}.jpg")
-                    images_right_cvd.append(f"{opt['practice_good_path']}/{index_in_hit}.jpg")
-                noun = practice_nouns[index_in_hit]
+                    images_left_rgb.append(f"{opt['practice_bad_path']}/{n}.jpg")
+                    images_right_rgb.append(f"{opt['practice_good_path']}/{n}.jpg")
+                    images_left_cvd.append(f"{opt['practice_bad_path']}/{n}.jpg")
+                    images_right_cvd.append(f"{opt['practice_good_path']}/{n}.jpg")
+                noun = practice_nouns[n]
             else:
                 # main experiment
-                idx, seed, cur_which_alg = all_comparisons[h * N + (n - P)]
+                try:
+                    idx, seed, cur_which_alg = all_comparisons[h * (N - P) + (n - P)]
+                except:
+                    print(f"Error: {h}, {N}, {n}, {P}")
+                    exit()
                 idx_seed = f"{idx}_{seed}_"
                 cur_alg_name = opt['which_algs_paths'][cur_which_alg]
                 # print(cur_alg_name)
@@ -182,9 +187,9 @@ def mk_expt(args):
         html = html.replace('{{TOTAL_NUM_IMS}}', '%i'%(opt['Nperhit']))
         html = html.replace('{{IS_PRACTICE}}', is_practice)
         # ipdb.set_trace()
-        s = (' ').join([f'sequence_helper("{gt_side[HIT_IDX][i]}","{images_left_rgb[HIT_IDX][i]}","{images_right_rgb[HIT_IDX][i]}", "{images_left_cvd[HIT_IDX][i]}", "{images_right_cvd[HIT_IDX][i]}", "{nouns[HIT_IDX][i]}");\n' for i in range(opt['Nperhit'])]) 
+        s = (' ').join([f'sequence_helper("{gt_side[HIT_IDX][i]}","{images_left_rgb[HIT_IDX][i]}","{images_right_rgb[HIT_IDX][i]}", "{images_left_cvd[HIT_IDX][i]}", "{images_right_cvd[HIT_IDX][i]}", "{nouns[HIT_IDX][i]}");\n' for i in range(N)]) 
         html = html.replace('{{SEQUENCE}}', s)
-        s = (' ').join(['<input type="hidden" name="selection%d" id="selection%d" value="unset">\n'%(i,i) for i in range(opt['Nperhit'])])
+        s = (' ').join(['<input type="hidden" name="selection%d" id="selection%d" value="unset">\n'%(i,i) for i in range(N)])
         html = html.replace('{{SELECTION}}', s)
         
         with open(os.path.join(args.output_folder,f'htmls/index_{HIT_IDX}.html'),'w') as f:

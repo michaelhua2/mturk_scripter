@@ -58,8 +58,12 @@ if __name__=="__main__":
                 },
                 {
                     "QualificationTypeId":"00000000000000000071",
-                    "Comparator":"EqualTo",
-                    "LocaleValues":[{"Country":"US"}]
+                    "Comparator":"In",
+                    "LocaleValues":[{"Country": "US"},
+                                    {'Country': 'GB'},
+                                    {'Country': 'CA'},
+                                    {'Country': 'AU'},
+                                    {'Country': 'NZ'}]
                 },
                 # min number of tasks completed = 1000
                 {
@@ -72,8 +76,8 @@ if __name__=="__main__":
             worker_requirements = []
         # Create the HIT
         response = client.create_hit(
-            MaxAssignments=5,
-            LifetimeInSeconds=10_000,
+            MaxAssignments=3,
+            LifetimeInSeconds=20_000,
             AssignmentDurationInSeconds=600,
             Reward=mturk_environment['reward'],
             Title=f'Answer simple question about images, - {idx}',

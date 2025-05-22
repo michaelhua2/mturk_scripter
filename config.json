@@ -1,0 +1,8 @@
+{
+    "ours" : "ours_wo_dino",
+    "other_methods" : [
+        "sd21",
+        "dalton",
+        "jiabin"
+    ]
+}

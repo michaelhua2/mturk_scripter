@@ -172,7 +172,7 @@ function makeExperiment() {
     p.practice_intro_shown = true
     p.experiment_intro_shown = true
     p.npractice = 5
-    p.total_num_ims = 35
+    p.total_num_ims = 30
     
     p.gt_side = []
     p.images_left_rgb = []
@@ -184,40 +184,35 @@ function makeExperiment() {
     p.captions = []
     
     sequence_helper("left","practice_good_friendliness/0.jpg","practice_bad_friendliness/0.jpg", "practice_good_friendliness/0.jpg", "practice_bad_friendliness/0.jpg", "apple");
- sequence_helper("right","practice_bad_friendliness/1.jpg","practice_good_friendliness/1.jpg", "practice_bad_friendliness/1.jpg", "practice_good_friendliness/1.jpg", "dog");
- sequence_helper("left","practice_good_friendliness/2.jpg","practice_bad_friendliness/2.jpg", "practice_good_friendliness/2.jpg", "practice_bad_friendliness/2.jpg", "parrot");
- sequence_helper("right","practice_bad_friendliness/3.jpg","practice_good_friendliness/3.jpg", "practice_bad_friendliness/3.jpg", "practice_good_friendliness/3.jpg", "fish");
+ sequence_helper("left","practice_good_friendliness/1.jpg","practice_bad_friendliness/1.jpg", "practice_good_friendliness/1.jpg", "practice_bad_friendliness/1.jpg", "dog");
+ sequence_helper("right","practice_bad_friendliness/2.jpg","practice_good_friendliness/2.jpg", "practice_bad_friendliness/2.jpg", "practice_good_friendliness/2.jpg", "parrot");
+ sequence_helper("left","practice_good_friendliness/3.jpg","practice_bad_friendliness/3.jpg", "practice_good_friendliness/3.jpg", "practice_bad_friendliness/3.jpg", "fish");
  sequence_helper("left","practice_good_friendliness/4.jpg","practice_bad_friendliness/4.jpg", "practice_good_friendliness/4.jpg", "practice_bad_friendliness/4.jpg", "firetruck");
- sequence_helper("left","ours/rgb/32_1_.jpg","jiabin/rgb/32_1_.jpg", "ours/cvd/32_1_.jpg", "jiabin/cvd/32_1_.jpg", "peppers");
- sequence_helper("left","ours/rgb/0_4_.jpg","dalton/rgb/0_4_.jpg", "ours/cvd/0_4_.jpg", "dalton/cvd/0_4_.jpg", "parrots");
- sequence_helper("left","ours/rgb/20_1_.jpg","dalton/rgb/20_1_.jpg", "ours/cvd/20_1_.jpg", "dalton/cvd/20_1_.jpg", "wildflowers");
- sequence_helper("right","dalton/rgb/9_1_.jpg","ours/rgb/9_1_.jpg", "dalton/cvd/9_1_.jpg", "ours/cvd/9_1_.jpg", "butterflies");
- sequence_helper("right","dalton/rgb/22_1_.jpg","ours/rgb/22_1_.jpg", "dalton/cvd/22_1_.jpg", "ours/cvd/22_1_.jpg", "hibiscus flowers");
- sequence_helper("right","dalton/rgb/2_4_.jpg","ours/rgb/2_4_.jpg", "dalton/cvd/2_4_.jpg", "ours/cvd/2_4_.jpg", "lilies");
- sequence_helper("left","ours/rgb/19_2_.jpg","jiabin/rgb/19_2_.jpg", "ours/cvd/19_2_.jpg", "jiabin/cvd/19_2_.jpg", "tulips");
- sequence_helper("right","jiabin/rgb/30_2_.jpg","ours/rgb/30_2_.jpg", "jiabin/cvd/30_2_.jpg", "ours/cvd/30_2_.jpg", "tulips");
- sequence_helper("right","dalton/rgb/1_0_.jpg","ours/rgb/1_0_.jpg", "dalton/cvd/1_0_.jpg", "ours/cvd/1_0_.jpg", "parrots");
- sequence_helper("left","ours/rgb/20_3_.jpg","sd21/rgb/20_3_.jpg", "ours/cvd/20_3_.jpg", "sd21/cvd/20_3_.jpg", "wildflowers");
- sequence_helper("right","jiabin/rgb/2_2_.jpg","ours/rgb/2_2_.jpg", "jiabin/cvd/2_2_.jpg", "ours/cvd/2_2_.jpg", "lilies");
- sequence_helper("left","ours/rgb/28_2_.jpg","jiabin/rgb/28_2_.jpg", "ours/cvd/28_2_.jpg", "jiabin/cvd/28_2_.jpg", "hibiscus flowers");
- sequence_helper("left","ours/rgb/32_1_.jpg","dalton/rgb/32_1_.jpg", "ours/cvd/32_1_.jpg", "dalton/cvd/32_1_.jpg", "peppers");
- sequence_helper("right","sd21/rgb/49_3_.jpg","ours/rgb/49_3_.jpg", "sd21/cvd/49_3_.jpg", "ours/cvd/49_3_.jpg", "roses");
- sequence_helper("left","ours/rgb/17_4_.jpg","sd21/rgb/17_4_.jpg", "ours/cvd/17_4_.jpg", "sd21/cvd/17_4_.jpg", "berries");
- sequence_helper("left","ours/rgb/27_3_.jpg","sd21/rgb/27_3_.jpg", "ours/cvd/27_3_.jpg", "sd21/cvd/27_3_.jpg", "apple trees");
- sequence_helper("right","jiabin/rgb/5_0_.jpg","ours/rgb/5_0_.jpg", "jiabin/cvd/5_0_.jpg", "ours/cvd/5_0_.jpg", "wildflowers");
- sequence_helper("right","sd21/rgb/19_4_.jpg","ours/rgb/19_4_.jpg", "sd21/cvd/19_4_.jpg", "ours/cvd/19_4_.jpg", "tulips");
- sequence_helper("right","sd21/rgb/43_4_.jpg","ours/rgb/43_4_.jpg", "sd21/cvd/43_4_.jpg", "ours/cvd/43_4_.jpg", "pepper plants");
- sequence_helper("right","dalton/rgb/27_0_.jpg","ours/rgb/27_0_.jpg", "dalton/cvd/27_0_.jpg", "ours/cvd/27_0_.jpg", "apple trees");
- sequence_helper("left","ours/rgb/15_3_.jpg","jiabin/rgb/15_3_.jpg", "ours/cvd/15_3_.jpg", "jiabin/cvd/15_3_.jpg", "flowers");
- sequence_helper("left","ours/rgb/20_4_.jpg","sd21/rgb/20_4_.jpg", "ours/cvd/20_4_.jpg", "sd21/cvd/20_4_.jpg", "wildflowers");
- sequence_helper("right","jiabin/rgb/34_2_.jpg","ours/rgb/34_2_.jpg", "jiabin/cvd/34_2_.jpg", "ours/cvd/34_2_.jpg", "lilies");
- sequence_helper("left","ours/rgb/16_4_.jpg","dalton/rgb/16_4_.jpg", "ours/cvd/16_4_.jpg", "dalton/cvd/16_4_.jpg", "coral reefs");
- sequence_helper("left","ours/rgb/1_0_.jpg","dalton/rgb/1_0_.jpg", "ours/cvd/1_0_.jpg", "dalton/cvd/1_0_.jpg", "parrots");
- sequence_helper("right","sd21/rgb/0_0_.jpg","ours/rgb/0_0_.jpg", "sd21/cvd/0_0_.jpg", "ours/cvd/0_0_.jpg", "parrots");
- sequence_helper("left","ours/rgb/26_2_.jpg","dalton/rgb/26_2_.jpg", "ours/cvd/26_2_.jpg", "dalton/cvd/26_2_.jpg", "tulips");
- sequence_helper("right","dalton/rgb/23_3_.jpg","ours/rgb/23_3_.jpg", "dalton/cvd/23_3_.jpg", "ours/cvd/23_3_.jpg", "maple tree");
+ sequence_helper("right","jiabin/rgb/27_4_.jpg","ours/rgb/27_4_.jpg", "jiabin/cvd/27_4_.jpg", "ours/cvd/27_4_.jpg", "apple trees");
  sequence_helper("right","dalton/rgb/15_3_.jpg","ours/rgb/15_3_.jpg", "dalton/cvd/15_3_.jpg", "ours/cvd/15_3_.jpg", "flowers");
- sequence_helper("left","ours/rgb/21_3_.jpg","dalton/rgb/21_3_.jpg", "ours/cvd/21_3_.jpg", "dalton/cvd/21_3_.jpg", "wildflowers");
+ sequence_helper("left","ours/rgb/12_2_.jpg","dalton/rgb/12_2_.jpg", "ours/cvd/12_2_.jpg", "dalton/cvd/12_2_.jpg", "exotic flowers");
+ sequence_helper("left","ours/rgb/26_0_.jpg","dalton/rgb/26_0_.jpg", "ours/cvd/26_0_.jpg", "dalton/cvd/26_0_.jpg", "tulips");
+ sequence_helper("left","ours/rgb/5_1_.jpg","dalton/rgb/5_1_.jpg", "ours/cvd/5_1_.jpg", "dalton/cvd/5_1_.jpg", "wildflowers");
+ sequence_helper("left","ours/rgb/2_3_.jpg","dalton/rgb/2_3_.jpg", "ours/cvd/2_3_.jpg", "dalton/cvd/2_3_.jpg", "lilies");
+ sequence_helper("right","sd21/rgb/17_2_.jpg","ours/rgb/17_2_.jpg", "sd21/cvd/17_2_.jpg", "ours/cvd/17_2_.jpg", "berries");
+ sequence_helper("right","sd21/rgb/46_2_.jpg","ours/rgb/46_2_.jpg", "sd21/cvd/46_2_.jpg", "ours/cvd/46_2_.jpg", "pitcher plants");
+ sequence_helper("right","jiabin/rgb/0_2_.jpg","ours/rgb/0_2_.jpg", "jiabin/cvd/0_2_.jpg", "ours/cvd/0_2_.jpg", "parrots");
+ sequence_helper("right","dalton/rgb/48_0_.jpg","ours/rgb/48_0_.jpg", "dalton/cvd/48_0_.jpg", "ours/cvd/48_0_.jpg", "apples");
+ sequence_helper("left","ours/rgb/15_2_.jpg","sd21/rgb/15_2_.jpg", "ours/cvd/15_2_.jpg", "sd21/cvd/15_2_.jpg", "flowers");
+ sequence_helper("left","ours/rgb/14_1_.jpg","jiabin/rgb/14_1_.jpg", "ours/cvd/14_1_.jpg", "jiabin/cvd/14_1_.jpg", "roses");
+ sequence_helper("right","jiabin/rgb/26_3_.jpg","ours/rgb/26_3_.jpg", "jiabin/cvd/26_3_.jpg", "ours/cvd/26_3_.jpg", "tulips");
+ sequence_helper("left","ours/rgb/30_3_.jpg","dalton/rgb/30_3_.jpg", "ours/cvd/30_3_.jpg", "dalton/cvd/30_3_.jpg", "tulips");
+ sequence_helper("left","ours/rgb/37_3_.jpg","jiabin/rgb/37_3_.jpg", "ours/cvd/37_3_.jpg", "jiabin/cvd/37_3_.jpg", "trumpet vine flowers");
+ sequence_helper("right","dalton/rgb/3_3_.jpg","ours/rgb/3_3_.jpg", "dalton/cvd/3_3_.jpg", "ours/cvd/3_3_.jpg", "roses");
+ sequence_helper("left","ours/rgb/42_4_.jpg","jiabin/rgb/42_4_.jpg", "ours/cvd/42_4_.jpg", "jiabin/cvd/42_4_.jpg", "roses");
+ sequence_helper("left","ours/rgb/28_4_.jpg","jiabin/rgb/28_4_.jpg", "ours/cvd/28_4_.jpg", "jiabin/cvd/28_4_.jpg", "hibiscus flowers");
+ sequence_helper("left","ours/rgb/44_1_.jpg","sd21/rgb/44_1_.jpg", "ours/cvd/44_1_.jpg", "sd21/cvd/44_1_.jpg", "roses");
+ sequence_helper("right","sd21/rgb/21_1_.jpg","ours/rgb/21_1_.jpg", "sd21/cvd/21_1_.jpg", "ours/cvd/21_1_.jpg", "wildflowers");
+ sequence_helper("left","ours/rgb/0_0_.jpg","dalton/rgb/0_0_.jpg", "ours/cvd/0_0_.jpg", "dalton/cvd/0_0_.jpg", "parrots");
+ sequence_helper("right","jiabin/rgb/25_1_.jpg","ours/rgb/25_1_.jpg", "jiabin/cvd/25_1_.jpg", "ours/cvd/25_1_.jpg", "poppy fields");
+ sequence_helper("right","sd21/rgb/36_3_.jpg","ours/rgb/36_3_.jpg", "sd21/cvd/36_3_.jpg", "ours/cvd/36_3_.jpg", "tomatoes");
+ sequence_helper("left","ours/rgb/33_0_.jpg","jiabin/rgb/33_0_.jpg", "ours/cvd/33_0_.jpg", "jiabin/cvd/33_0_.jpg", "maple tree");
+ sequence_helper("right","sd21/rgb/43_1_.jpg","ours/rgb/43_1_.jpg", "sd21/cvd/43_1_.jpg", "ours/cvd/43_1_.jpg", "pepper plants");
 
 
     return this
@@ -528,9 +523,9 @@ function restartExperiment() {}
 <ul>    
     <li>It should take about 5 minutes.</li><br>
     <li>You will take part in an experiment involving visual perception. </li><br>
-    <li>You'll see two images from the eyes of a color blind person and a caption.</li><br>
+    <li>You'll see two images from the eyes of a color blind person and be given an object to identify.</li><br>
     <li>You will first be asked whether or not you are red-green colorblind. If you are not, a simulation will be done for you. </li><br>
-    <li>Your task is to determine which of the two images matches the caption the best.</li><br>
+    <li>Your task is to determine which of the two images show the object the clearest.</li><br>
 
 </ul>
     </div>
@@ -582,11 +577,6 @@ function restartExperiment() {}
  <input type="hidden" name="selection27" id="selection27" value="unset">
  <input type="hidden" name="selection28" id="selection28" value="unset">
  <input type="hidden" name="selection29" id="selection29" value="unset">
- <input type="hidden" name="selection30" id="selection30" value="unset">
- <input type="hidden" name="selection31" id="selection31" value="unset">
- <input type="hidden" name="selection32" id="selection32" value="unset">
- <input type="hidden" name="selection33" id="selection33" value="unset">
- <input type="hidden" name="selection34" id="selection34" value="unset">
 
             <!-- <p><textarea name='comment' cols='80' rows='3'></textarea></p> -->
             <div><textarea id="comments" name="comments" rows="3" cols="31">Comments?</textarea></div>

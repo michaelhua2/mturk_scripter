@@ -172,7 +172,7 @@ function makeExperiment() {
     p.practice_intro_shown = true
     p.experiment_intro_shown = true
     p.npractice = 5
-    p.total_num_ims = 35
+    p.total_num_ims = 30
     
     p.gt_side = []
     p.images_left_rgb = []
@@ -185,39 +185,34 @@ function makeExperiment() {
     
     sequence_helper("right","practice_bad_adherence/0.jpg","practice_good_adherence/0.jpg", "practice_bad_adherence/0.jpg", "practice_good_adherence/0.jpg", "A photo of an apple");
  sequence_helper("left","practice_good_adherence/1.jpg","practice_bad_adherence/1.jpg", "practice_good_adherence/1.jpg", "practice_bad_adherence/1.jpg", "A photo of a dog");
- sequence_helper("left","practice_good_adherence/2.jpg","practice_bad_adherence/2.jpg", "practice_good_adherence/2.jpg", "practice_bad_adherence/2.jpg", "A photo of a parrot");
- sequence_helper("right","practice_bad_adherence/3.jpg","practice_good_adherence/3.jpg", "practice_bad_adherence/3.jpg", "practice_good_adherence/3.jpg", "A photo of a fish");
+ sequence_helper("right","practice_bad_adherence/2.jpg","practice_good_adherence/2.jpg", "practice_bad_adherence/2.jpg", "practice_good_adherence/2.jpg", "A photo of a parrot");
+ sequence_helper("left","practice_good_adherence/3.jpg","practice_bad_adherence/3.jpg", "practice_good_adherence/3.jpg", "practice_bad_adherence/3.jpg", "A photo of a fish");
  sequence_helper("right","practice_bad_adherence/4.jpg","practice_good_adherence/4.jpg", "practice_bad_adherence/4.jpg", "practice_good_adherence/4.jpg", "A photo of a firetruck");
- sequence_helper("right","sd21/rgb/32_4_.jpg","ours/rgb/32_4_.jpg", "sd21/cvd/32_4_.jpg", "ours/cvd/32_4_.jpg", "A scenic nature trail lined with mature green trees and blooming red wildflowers");
- sequence_helper("right","jiabin/rgb/23_3_.jpg","ours/rgb/23_3_.jpg", "jiabin/cvd/23_3_.jpg", "ours/cvd/23_3_.jpg", "A wildlife sanctuary housing exotic creatures with red scales and green feathers.");
- sequence_helper("right","dalton/rgb/16_0_.jpg","ours/rgb/16_0_.jpg", "dalton/cvd/16_0_.jpg", "ours/cvd/16_0_.jpg", "A serene meadow at twilight with red poppies swaying in a gentle breeze surrounded by tall green grasses");
- sequence_helper("left","ours/rgb/34_3_.jpg","sd21/rgb/34_3_.jpg", "ours/cvd/34_3_.jpg", "sd21/cvd/34_3_.jpg", "A charming greenhouse providing sanctuary for red bell peppers growing among green foliage");
- sequence_helper("right","sd21/rgb/19_3_.jpg","ours/rgb/19_3_.jpg", "sd21/cvd/19_3_.jpg", "ours/cvd/19_3_.jpg", "A serene botanical garden with delicate red butterflies flitting among lush green plants");
- sequence_helper("left","ours/rgb/42_3_.jpg","jiabin/rgb/42_3_.jpg", "ours/cvd/42_3_.jpg", "jiabin/cvd/42_3_.jpg", "A gourmet experience in a garden setting with red peppered dishes among green landscape views.");
- sequence_helper("right","sd21/rgb/1_1_.jpg","ours/rgb/1_1_.jpg", "sd21/cvd/1_1_.jpg", "ours/cvd/1_1_.jpg", "A picturesque vineyard with rows of green grapevines and scattered red poppies in bloom");
- sequence_helper("right","sd21/rgb/34_4_.jpg","ours/rgb/34_4_.jpg", "sd21/cvd/34_4_.jpg", "ours/cvd/34_4_.jpg", "The lush rainforest canopy dense with foliage and red exotic flowers");
- sequence_helper("right","dalton/rgb/18_2_.jpg","ours/rgb/18_2_.jpg", "dalton/cvd/18_2_.jpg", "ours/cvd/18_2_.jpg", "A breathtaking mountain vista with red wildflowers blooming amidst green pine trees");
- sequence_helper("left","ours/rgb/18_0_.jpg","jiabin/rgb/18_0_.jpg", "ours/cvd/18_0_.jpg", "jiabin/cvd/18_0_.jpg", "An ornate garden party with tables covered in red roses and green foliage creating a romantic setting");
- sequence_helper("right","dalton/rgb/11_2_.jpg","ours/rgb/11_2_.jpg", "dalton/cvd/11_2_.jpg", "ours/cvd/11_2_.jpg", "A botanical greenhouse housing exotic red flowers amid a sea of diverse green plant life");
- sequence_helper("right","dalton/rgb/15_1_.jpg","ours/rgb/15_1_.jpg", "dalton/cvd/15_1_.jpg", "ours/cvd/15_1_.jpg", "A magical underwater scene where red coral reefs contrast with seaweed in every shade of green");
- sequence_helper("left","ours/rgb/22_4_.jpg","jiabin/rgb/22_4_.jpg", "ours/cvd/22_4_.jpg", "jiabin/cvd/22_4_.jpg", "A tranquil botanical hike path lined with towering pines and shrubs of red berries");
- sequence_helper("left","ours/rgb/11_3_.jpg","jiabin/rgb/11_3_.jpg", "ours/cvd/11_3_.jpg", "jiabin/cvd/11_3_.jpg", "An enchanted enchanted forest with lush green trees and mythical red creatures");
- sequence_helper("right","jiabin/rgb/43_4_.jpg","ours/rgb/43_4_.jpg", "jiabin/cvd/43_4_.jpg", "ours/cvd/43_4_.jpg", "A vibrant city park during spring with red tulips and lush green grass");
- sequence_helper("right","sd21/rgb/23_0_.jpg","ours/rgb/23_0_.jpg", "sd21/cvd/23_0_.jpg", "ours/cvd/23_0_.jpg", "A dramatic sea cliff landscape dotted with red wildflowers and hardy green shrubs");
- sequence_helper("right","dalton/rgb/22_3_.jpg","ours/rgb/22_3_.jpg", "dalton/cvd/22_3_.jpg", "ours/cvd/22_3_.jpg", "An adventurous hiking path lined with red wildflowers weaving through densely forested hills of green");
- sequence_helper("right","dalton/rgb/37_0_.jpg","ours/rgb/37_0_.jpg", "dalton/cvd/37_0_.jpg", "ours/cvd/37_0_.jpg", "A vibrant tropical resort with red hibiscus flowers dotting the lush green scenery");
- sequence_helper("left","ours/rgb/18_4_.jpg","sd21/rgb/18_4_.jpg", "ours/cvd/18_4_.jpg", "sd21/cvd/18_4_.jpg", "A photorealistic oil painting capturing a red maple tree in a deep green forest");
- sequence_helper("left","ours/rgb/21_2_.jpg","dalton/rgb/21_2_.jpg", "ours/cvd/21_2_.jpg", "dalton/cvd/21_2_.jpg", "A culinary cooking show set with countertops brimming with red chili peppers and vibrant green herbs");
- sequence_helper("right","sd21/rgb/29_4_.jpg","ours/rgb/29_4_.jpg", "sd21/cvd/29_4_.jpg", "ours/cvd/29_4_.jpg", "A scenic railway journey through the countryside with a train weaving between red poppy fields and green vineyards");
- sequence_helper("left","ours/rgb/13_4_.jpg","jiabin/rgb/13_4_.jpg", "ours/cvd/13_4_.jpg", "jiabin/cvd/13_4_.jpg", "A magical garden with red tulips blooming amidst soft green moss");
- sequence_helper("left","ours/rgb/38_0_.jpg","sd21/rgb/38_0_.jpg", "ours/cvd/38_0_.jpg", "sd21/cvd/38_0_.jpg", "A secluded orchard with rows of red apple trees amidst green underbrush");
- sequence_helper("left","ours/rgb/5_2_.jpg","dalton/rgb/5_2_.jpg", "ours/cvd/5_2_.jpg", "dalton/cvd/5_2_.jpg", "A picturesque postcard view of a small coastal Italian town awash with cascading red hibiscus flowers flanked by decades-old green vines");
- sequence_helper("left","ours/rgb/3_3_.jpg","jiabin/rgb/3_3_.jpg", "ours/cvd/3_3_.jpg", "jiabin/cvd/3_3_.jpg", "A vibrant rainforest scene with bright red birds perched on green vines");
- sequence_helper("left","ours/rgb/40_1_.jpg","sd21/rgb/40_1_.jpg", "ours/cvd/40_1_.jpg", "sd21/cvd/40_1_.jpg", "An artistic floral arrangement combining striking red tulips with vibrant green stems and leaves");
- sequence_helper("right","dalton/rgb/37_4_.jpg","ours/rgb/37_4_.jpg", "dalton/cvd/37_4_.jpg", "ours/cvd/37_4_.jpg", "A flower border lined with red geraniums woven into clusters of green ground ivy.");
- sequence_helper("right","dalton/rgb/9_4_.jpg","ours/rgb/9_4_.jpg", "dalton/cvd/9_4_.jpg", "ours/cvd/9_4_.jpg", "A scenic outdoor farmers market with red peppers and vibrant green herbs on display");
- sequence_helper("left","ours/rgb/37_3_.jpg","jiabin/rgb/37_3_.jpg", "ours/cvd/37_3_.jpg", "jiabin/cvd/37_3_.jpg", "A serene Japanese garden with a maple tree displaying crimson leaves amidst neatly manicured green shrubs");
- sequence_helper("right","jiabin/rgb/18_1_.jpg","ours/rgb/18_1_.jpg", "jiabin/cvd/18_1_.jpg", "ours/cvd/18_1_.jpg", "A serene duck pond reflecting the pointillist splatters of red lilies drifting amid green lily pads");
+ sequence_helper("right","sd21/rgb/31_3_.jpg","ours/rgb/31_3_.jpg", "sd21/cvd/31_3_.jpg", "ours/cvd/31_3_.jpg", "A flower border lined with red geraniums woven into clusters of green ground ivy.");
+ sequence_helper("left","ours/rgb/7_2_.jpg","jiabin/rgb/7_2_.jpg", "ours/cvd/7_2_.jpg", "jiabin/cvd/7_2_.jpg", "A serene meadow at twilight with red poppies swaying in a gentle breeze surrounded by tall green grasses");
+ sequence_helper("right","jiabin/rgb/17_3_.jpg","ours/rgb/17_3_.jpg", "jiabin/cvd/17_3_.jpg", "ours/cvd/17_3_.jpg", "A tranquil botanical hike path lined with towering pines and shrubs of red berries");
+ sequence_helper("right","dalton/rgb/2_0_.jpg","ours/rgb/2_0_.jpg", "dalton/cvd/2_0_.jpg", "ours/cvd/2_0_.jpg", "A serene garden pond surrounded by lush green grasses and floating red lilies");
+ sequence_helper("left","ours/rgb/36_2_.jpg","jiabin/rgb/36_2_.jpg", "ours/cvd/36_2_.jpg", "jiabin/cvd/36_2_.jpg", "A lively community garden in bloom with vibrant red tomatoes amidst lush green zucchinis and herbs");
+ sequence_helper("right","dalton/rgb/35_2_.jpg","ours/rgb/35_2_.jpg", "dalton/cvd/35_2_.jpg", "ours/cvd/35_2_.jpg", "A creative flower arrangement workshop with vases bursting with roses in fiery red and fleshy green leaves");
+ sequence_helper("left","ours/rgb/48_0_.jpg","sd21/rgb/48_0_.jpg", "ours/cvd/48_0_.jpg", "sd21/cvd/48_0_.jpg", "An idyllic orchard scene with red apples hanging from green-laden trees.");
+ sequence_helper("left","ours/rgb/0_4_.jpg","jiabin/rgb/0_4_.jpg", "ours/cvd/0_4_.jpg", "jiabin/cvd/0_4_.jpg", "A tropical paradise scene with red parrots flying over vibrant green palm trees");
+ sequence_helper("left","ours/rgb/31_1_.jpg","sd21/rgb/31_1_.jpg", "ours/cvd/31_1_.jpg", "sd21/cvd/31_1_.jpg", "A flower border lined with red geraniums woven into clusters of green ground ivy.");
+ sequence_helper("right","dalton/rgb/11_2_.jpg","ours/rgb/11_2_.jpg", "dalton/cvd/11_2_.jpg", "ours/cvd/11_2_.jpg", "A picturesque vineyard with rows of green grapevines and scattered red poppies in bloom");
+ sequence_helper("right","sd21/rgb/1_4_.jpg","ours/rgb/1_4_.jpg", "sd21/cvd/1_4_.jpg", "ours/cvd/1_4_.jpg", "An adventurous jungle safari with vivid red parrots and dense green canopy overhead");
+ sequence_helper("left","ours/rgb/12_4_.jpg","dalton/rgb/12_4_.jpg", "ours/cvd/12_4_.jpg", "dalton/cvd/12_4_.jpg", "The lush rainforest canopy dense with foliage and red exotic flowers");
+ sequence_helper("left","ours/rgb/41_1_.jpg","sd21/rgb/41_1_.jpg", "ours/cvd/41_1_.jpg", "sd21/cvd/41_1_.jpg", "A shaded rock garden with red columbine flowers arching over green moss-covered stones.");
+ sequence_helper("right","sd21/rgb/14_4_.jpg","ours/rgb/14_4_.jpg", "sd21/cvd/14_4_.jpg", "ours/cvd/14_4_.jpg", "An ornate garden party with tables covered in red roses and green foliage creating a romantic setting");
+ sequence_helper("left","ours/rgb/24_1_.jpg","dalton/rgb/24_1_.jpg", "ours/cvd/24_1_.jpg", "dalton/cvd/24_1_.jpg", "A culinary cooking show set with countertops brimming with red chili peppers and vibrant green herbs");
+ sequence_helper("left","ours/rgb/26_3_.jpg","sd21/rgb/26_3_.jpg", "ours/cvd/26_3_.jpg", "sd21/cvd/26_3_.jpg", "A magical garden with red tulips blooming amidst soft green moss");
+ sequence_helper("right","jiabin/rgb/43_0_.jpg","ours/rgb/43_0_.jpg", "jiabin/cvd/43_0_.jpg", "ours/cvd/43_0_.jpg", "A backyard garden with red pepper plants growing among thick green ground cover.");
+ sequence_helper("left","ours/rgb/11_3_.jpg","dalton/rgb/11_3_.jpg", "ours/cvd/11_3_.jpg", "dalton/cvd/11_3_.jpg", "A picturesque vineyard with rows of green grapevines and scattered red poppies in bloom");
+ sequence_helper("right","jiabin/rgb/8_0_.jpg","ours/rgb/8_0_.jpg", "jiabin/cvd/8_0_.jpg", "ours/cvd/8_0_.jpg", "A charming greenhouse providing sanctuary for red bell peppers growing among green foliage");
+ sequence_helper("right","sd21/rgb/10_4_.jpg","ours/rgb/10_4_.jpg", "sd21/cvd/10_4_.jpg", "ours/cvd/10_4_.jpg", "A gourmet experience in a garden setting with red peppered dishes among green landscape views.");
+ sequence_helper("left","ours/rgb/25_3_.jpg","jiabin/rgb/25_3_.jpg", "ours/cvd/25_3_.jpg", "jiabin/cvd/25_3_.jpg", "A scenic railway journey through the countryside with a train weaving between red poppy fields and green vineyards");
+ sequence_helper("left","ours/rgb/18_0_.jpg","dalton/rgb/18_0_.jpg", "ours/cvd/18_0_.jpg", "dalton/cvd/18_0_.jpg", "An enchanted enchanted forest with lush green trees and mythical red creatures");
+ sequence_helper("right","dalton/rgb/35_1_.jpg","ours/rgb/35_1_.jpg", "dalton/cvd/35_1_.jpg", "ours/cvd/35_1_.jpg", "A creative flower arrangement workshop with vases bursting with roses in fiery red and fleshy green leaves");
+ sequence_helper("right","dalton/rgb/30_2_.jpg","ours/rgb/30_2_.jpg", "dalton/cvd/30_2_.jpg", "ours/cvd/30_2_.jpg", "An artistic floral arrangement combining striking red tulips with vibrant green stems and leaves");
+ sequence_helper("right","sd21/rgb/45_2_.jpg","ours/rgb/45_2_.jpg", "sd21/cvd/45_2_.jpg", "ours/cvd/45_2_.jpg", "An intricate botanical garden, featuring red rosebushes interwoven with lush green ivy, under the morning dew reflecting sunlight.");
 
 
     return this
@@ -585,11 +580,6 @@ function restartExperiment() {}
  <input type="hidden" name="selection27" id="selection27" value="unset">
  <input type="hidden" name="selection28" id="selection28" value="unset">
  <input type="hidden" name="selection29" id="selection29" value="unset">
- <input type="hidden" name="selection30" id="selection30" value="unset">
- <input type="hidden" name="selection31" id="selection31" value="unset">
- <input type="hidden" name="selection32" id="selection32" value="unset">
- <input type="hidden" name="selection33" id="selection33" value="unset">
- <input type="hidden" name="selection34" id="selection34" value="unset">
 
             <!-- <p><textarea name='comment' cols='80' rows='3'></textarea></p> -->
             <div><textarea id="comments" name="comments" rows="3" cols="31">Comments?</textarea></div>
